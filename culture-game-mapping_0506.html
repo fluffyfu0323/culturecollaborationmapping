@@ -3616,6 +3616,53 @@ function init() {
     renderTrend(d);
     renderRadar(d);
   });
+
+  // ===== Deep-link 支持：?focus=g11 等 URL 参数从外部跳转预选节点 =====
+  // 用法：culture-game-mapping_0506.html?focus=g11  → 自动聚焦超自然行动组
+  //       ?focus=c4   → 自动聚焦敦煌文化主题
+  // 智能等待：轮询节点位置变化，仿真稳定立即聚焦（一般 200-500ms 内完成）
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const focusId = params.get('focus');
+    if (focusId && nodeMap[focusId]) {
+      const startAt = Date.now();
+      const HARD_LIMIT = 1500;     // 兜底超时
+      const STABLE_DELTA = 0.8;    // 节点最大位移 < 0.8px 视为稳定
+      const STABLE_FRAMES = 3;     // 连续 3 帧稳定才触发
+      let prevSnapshot = null;
+      let stableCount = 0;
+      function tryFocus() {
+        try {
+          if (typeof handleSearchClick === 'function') {
+            handleSearchClick('node', focusId);
+          } else if (typeof focusGraphNode === 'function') {
+            focusGraphNode(focusId);
+          }
+        } catch (e) { console.warn('focus failed:', e); }
+      }
+      function check() {
+        const elapsed = Date.now() - startAt;
+        // 节点位置快照
+        const snap = (graphNodes || []).map(n => [n.x, n.y]);
+        if (prevSnapshot && snap.length === prevSnapshot.length) {
+          let maxDelta = 0;
+          for (let i = 0; i < snap.length; i++) {
+            const dx = snap[i][0] - prevSnapshot[i][0];
+            const dy = snap[i][1] - prevSnapshot[i][1];
+            const d = Math.sqrt(dx*dx + dy*dy);
+            if (d > maxDelta) maxDelta = d;
+          }
+          if (maxDelta < STABLE_DELTA) stableCount++;
+          else stableCount = 0;
+          if (stableCount >= STABLE_FRAMES) { tryFocus(); return; }
+        }
+        prevSnapshot = snap;
+        if (elapsed >= HARD_LIMIT) { tryFocus(); return; }
+        requestAnimationFrame(check);
+      }
+      requestAnimationFrame(check);
+    }
+  } catch (e) { console.warn('deep-link init failed:', e); }
 }
 
 init();
