@@ -1288,6 +1288,13 @@
     padding: 10px 12px;
     background: var(--bg);
     border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s;
+  }
+
+  .modal-rel-item:hover {
+    background: #eef2ff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   }
 
   .rel-left { display: flex; flex-direction: column; gap: 2px; }
@@ -2600,7 +2607,9 @@ function showModal(node) {
     const oid = l.source === node.id ? l.target : l.source;
     const o = nodeMap[oid];
     if (!o) return;
-    relsEl.innerHTML += `<div class="modal-rel-item">
+    const srcId = node.type === 'culture' ? node.id : oid;
+    const tgtId = node.type === 'culture' ? oid : node.id;
+    relsEl.innerHTML += `<div class="modal-rel-item" onclick="handleCaseClick('${srcId}','${tgtId}')">
       <div class="rel-left">
         <span class="rel-name">${o.type==='culture'?'🏛':'🎮'} ${o.name}</span>
         <span class="rel-meta">深度 ${'●'.repeat(l.depth)}${'○'.repeat(5-l.depth)} · ${l.note.slice(0,50)}…</span>
