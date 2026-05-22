@@ -731,7 +731,7 @@
   /* ========== Resize Handle ========== */
   .resize-handle {
     grid-column: 2 / -1;
-    height: 6px;
+    height: 12px;
     cursor: row-resize;
     background: transparent;
     position: relative;
@@ -746,17 +746,17 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 40px;
-    height: 4px;
-    border-radius: 2px;
-    background: #d1d1d6;
+    width: 60px;
+    height: 5px;
+    border-radius: 3px;
+    background: #b0b0b8;
     transition: background 0.2s, width 0.2s;
   }
 
   .resize-handle:hover::before,
   .resize-handle.active::before {
     background: var(--accent);
-    width: 56px;
+    width: 72px;
   }
 
   /* ========== Bottom Panel ========== */
@@ -1572,7 +1572,7 @@
   <div class="bottom-panel" id="bottomPanel">
     <div class="panel-tabs">
       <button class="panel-tab active" data-tab="trend"><span class="tab-icon">🔥</span> 文化热度榜</button>
-      <button class="panel-tab" data-tab="radar"><span class="tab-icon">📊</span> 效果对比</button>
+      <button class="panel-tab" data-tab="radar" style="display:none;"><span class="tab-icon">📊</span> 效果对比</button>
       <button class="panel-tab" data-tab="cases"><span class="tab-icon">📑</span> 案例详情</button>
       <button class="panel-tab" data-tab="insights"><span class="tab-icon">💡</span> 洞察</button>
     </div>
