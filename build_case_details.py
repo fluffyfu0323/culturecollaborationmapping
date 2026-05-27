@@ -1362,10 +1362,15 @@ ALL_KEYS = [
 # 构建并输出
 # ===================================================================
 def build():
-    # 合并 details
+    # 合并 details：ALL_KEYS中的 + FILLED_DETAILS中新增的（爬虫自动发现的）
     details = {}
     for key in ALL_KEYS:
         details[key] = FILLED_DETAILS.get(key, None)
+
+    # 将FILLED_DETAILS中有但ALL_KEYS中没有的key也加入（爬虫新增的联动）
+    for key, value in FILLED_DETAILS.items():
+        if key not in details:
+            details[key] = value
 
     # JSON 输出
     output = {"_meta": META, "details": details}
