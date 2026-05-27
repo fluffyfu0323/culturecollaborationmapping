@@ -1298,6 +1298,17 @@ FILLED_DETAILS = {
         "time": "2026年5月",
         "partner": "黎侯虎非遗传承人李晓梅老师",
         "form": "游戏内联动活动，推出布老虎主题内容",
+    # [爬虫自动发现] 2026-05-27 - 以下13条待审核
+    # ═══════════════════════════════════════════════════════════
+
+    # ─── [已审核] 剑网3 × 永庆坊 (AI建议分类: c10) ───
+    "c10|g1": {
+        "title": "剑网3 × 永庆坊",
+        "game": "剑网3",
+        "culture": "文旅·永庆坊（广州西关文化/国风街区）",
+        "time": "2025年10月",
+        "partner": "永庆坊",
+        "form": "沉浸式国风盛宴（具体联动内容需进一步确认）",
         "userFeedback": "待补充",
         "revenue": "待补充",
         "socialBuzz": "待补充",
@@ -1358,6 +1369,17 @@ FILLED_DETAILS = {
         "time": "2026年2月1日",
         "partner": "非遗传承人/文化机构（具体名称待核实）",
         "form": "游戏内剑修版本联动非遗皮影火龙贺新春，延续守护传承文化公益计划",
+        "source": "《剑网3》联动永庆坊 开启沉浸式国风盛宴（原文: https://static.nfnews.com/content/202510/27/c11852473.html）"
+    },
+
+    # ─── [已审核] 燕云十六声 × 山东文旅（明水古城、黄河口生态旅游区） (AI建议分类: c10) ───
+    "c10|g9": {
+        "title": "燕云十六声 × 山东文旅（明水古城、黄河口生态旅游区）",
+        "game": "燕云十六声",
+        "culture": "文旅·山东济南明水古城/东营黄河口生态旅游区",
+        "time": "2026年5月",
+        "partner": "山东省济南市明水古城、东营黄河口生态旅游区",
+        "form": "线下景区联动，设置游戏经典场景，鼓励角色扮演旅游",
         "userFeedback": "待补充",
         "revenue": "待补充",
         "socialBuzz": "待补充",
@@ -1373,6 +1395,17 @@ FILLED_DETAILS = {
         "time": "待核实",
         "partner": "黄山景区",
         "form": "线上还原黄山景观与仙山文化，线下实景打卡活动",
+        "source": "租服装、约委托、请摄影、进景区,角色扮演式旅游“破次元” | 五一假期前夕，大学生杨逸天听说国产武侠游戏《燕云十六声》即将与山东省济南市明水古城、东营黄河口生态旅游区线下联动。（原文: https://baijiahao.baidu.com/s?id=1864127634183765753&wfr=spider&for=pc）"
+    },
+
+    # ─── [已审核] 三国志·战略版 × 许昌文旅 (AI建议分类: c8) ───
+    "c8|g17": {
+        "title": "三国志·战略版 × 许昌文旅",
+        "game": "三国志·战略版",
+        "culture": "三国文物/历史",
+        "time": "2026年4月25日",
+        "partner": "许昌文旅",
+        "form": "邀请玩家在曹丞相府进行专场游览并观看三国主题情景剧，提供专属礼遇",
         "userFeedback": "待补充",
         "revenue": "待补充",
         "socialBuzz": "待补充",
@@ -1388,11 +1421,23 @@ FILLED_DETAILS = {
         "time": "2026年5月",
         "partner": "上海交通卡公司",
         "form": "联动推出多城通用的上海交通卡",
+        "source": "新闻标题: 汉魏故都迎来新旅客,灵犀互娱《三国志·战略版》联动许昌文旅邀玩家重读三国 新闻摘要: 汉魏故都迎来新旅客,灵犀互娱《三国志·战略版》联动许昌文旅邀玩家重读三国 来源:海外网 许都旧地,英雄未远。4月25日,许昌三国文化旅游节期间,汉魏故都迎来了一群特殊的新旅客。灵犀互娱《三国志·战略版》首批受邀玩家免费在曹丞相府进行专场游览,并观看三国主题情景剧,在许昌正式开启了一场“青梅煮酒论英雄”的三国文化之旅。 据了解,灵犀互娱《三国志·战略版》本次携手许昌文旅,为玩家提供了专属礼遇,曹丞相（原文: https://baijiahao.baidu.com/s?id=1863873679732182777&wfr=spider&for=pc）"
+    },
+
+    # ─── [已审核] 率土之滨 × 汉中勉县端午文化 (AI建议分类: c10) ───
+    "c10|g18": {
+        "title": "率土之滨 × 汉中勉县端午文化",
+        "game": "率土之滨",
+        "culture": "文旅·汉中/勉县/三国历史",
+        "time": "2026年5月",
+        "partner": "汉中市、勉县文旅",
+        "form": "端午主题服务器联动，融合三国历史与地方文旅元素",
         "userFeedback": "待补充",
         "revenue": "待补充",
         "socialBuzz": "待补充",
         "conversionNote": "待补充",
         "source": "新闻标题: 二重螺旋联动上海交通卡 多城通用（原文: https://www.taptap.cn/moment/767101683506350626）"
+        "source": "北伐兴汉开启!《率土之滨》×汉中×勉县联动端午主题服重磅来袭!（原文: http://news.17173.com/content/05282025/155107684.shtml）"
     },
 }
 
@@ -1437,10 +1482,15 @@ ALL_KEYS = [
 # 构建并输出
 # ===================================================================
 def build():
-    # 合并 details
+    # 合并 details：ALL_KEYS中的 + FILLED_DETAILS中新增的（爬虫自动发现的）
     details = {}
     for key in ALL_KEYS:
         details[key] = FILLED_DETAILS.get(key, None)
+
+    # 将FILLED_DETAILS中有但ALL_KEYS中没有的key也加入（爬虫新增的联动）
+    for key, value in FILLED_DETAILS.items():
+        if key not in details:
+            details[key] = value
 
     # JSON 输出
     output = {"_meta": META, "details": details}
@@ -1472,6 +1522,57 @@ def build():
     total_count = len(details)
     print(f"[OK] Generated data/case-details.json and data/case-details.js")
     print(f"     Total keys: {total_count}, Filled: {filled_count}, Pending: {total_count - filled_count}")
+
+    # ─── 方案C：自动追加新key到HTML的links数组 ───
+    import re
+    html_file = "culture-game-mapping_0506.html"
+    if os.path.exists(html_file):
+        with open(html_file, "r", encoding="utf-8") as f:
+            html_content = f.read()
+
+        # 提取HTML中已有的所有link key（source:'cX',target:'gY'格式）
+        existing_links = set()
+        for m in re.finditer(r"source:'(c\w+)',\s*target:'(g\w+)'", html_content):
+            existing_links.add(f"{m.group(1)}|{m.group(2)}")
+
+        # 找出FILLED_DETAILS中有但HTML links中没有的key
+        new_links = []
+        for key, value in FILLED_DETAILS.items():
+            if key not in existing_links and value is not None:
+                parts = key.split("|")
+                if len(parts) == 2:
+                    culture_id, game_id = parts
+                    # 从detail数据中提取note（用title字段的后半部分）
+                    note = value.get("title", "").replace('"', "'").replace("'", "\\'")
+                    if len(note) > 50:
+                        note = note[:50]
+                    year = 2026  # 默认当前年份
+                    time_str = value.get("time", "")
+                    # 尝试提取年份
+                    year_match = re.search(r"(202[0-9])", time_str)
+                    if year_match:
+                        year = int(year_match.group(1))
+                    new_links.append(
+                        f"  {{ source:'{culture_id}',target:'{game_id}', depth:3, rating:'B', note:'{note}', year:{year} }},"
+                    )
+
+        if new_links:
+            # 在 ]; 结束标记前插入新link（找到links数组的结束位置）
+            # links数组以 "const links = [" 开头，以 "];" 结尾
+            insert_marker = "];\n"
+            # 找到 "const links = [" 之后的第一个 "];"
+            links_start = html_content.find("const links = [")
+            if links_start != -1:
+                links_end = html_content.find("];", links_start)
+                if links_end != -1:
+                    insert_text = "\n  // ─── [爬虫自动新增] ───\n" + "\n".join(new_links) + "\n"
+                    html_content = html_content[:links_end] + insert_text + html_content[links_end:]
+
+                    with open(html_file, "w", encoding="utf-8") as f:
+                        f.write(html_content)
+                    print(f"[OK] 自动追加 {len(new_links)} 条新link到 {html_file}")
+        else:
+            print(f"[OK] HTML links 已是最新，无需追加")
 
 
 if __name__ == "__main__":
