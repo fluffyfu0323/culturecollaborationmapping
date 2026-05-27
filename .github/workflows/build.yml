@@ -1,0 +1,37 @@
+name: Build & Validate Case Details
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'build_case_details.py'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: QA - Validate Python syntax
+        run: python -c "import ast; ast.parse(open('build_case_details.py').read()); print('✅ Syntax OK')"
+
+      - name: Build case details
+        run: python build_case_details.py
+
+      - name: Verify output files exist
+        run: |
+          test -f data/case-details.json && echo "✅ case-details.json exists"
+          test -f data/case-details.js && echo "✅ case-details.js exists"
+
+      - name: Commit and push generated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/case-details.json data/case-details.js
+          git diff --staged --quiet || git commit -m "[CI] 自动重新生成 case-details 数据文件"
+          git push
