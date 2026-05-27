@@ -1403,6 +1403,57 @@ def build():
     print(f"[OK] Generated data/case-details.json and data/case-details.js")
     print(f"     Total keys: {total_count}, Filled: {filled_count}, Pending: {total_count - filled_count}")
 
+    # ─── 方案C：自动追加新key到HTML的links数组 ───
+    import re
+    html_file = "culture-game-mapping_0506.html"
+    if os.path.exists(html_file):
+        with open(html_file, "r", encoding="utf-8") as f:
+            html_content = f.read()
+
+        # 提取HTML中已有的所有link key（source:'cX',target:'gY'格式）
+        existing_links = set()
+        for m in re.finditer(r"source:'(c\w+)',\s*target:'(g\w+)'", html_content):
+            existing_links.add(f"{m.group(1)}|{m.group(2)}")
+
+        # 找出FILLED_DETAILS中有但HTML links中没有的key
+        new_links = []
+        for key, value in FILLED_DETAILS.items():
+            if key not in existing_links and value is not None:
+                parts = key.split("|")
+                if len(parts) == 2:
+                    culture_id, game_id = parts
+                    # 从detail数据中提取note（用title字段的后半部分）
+                    note = value.get("title", "").replace('"', "'").replace("'", "\\'")
+                    if len(note) > 50:
+                        note = note[:50]
+                    year = 2026  # 默认当前年份
+                    time_str = value.get("time", "")
+                    # 尝试提取年份
+                    year_match = re.search(r"(202[0-9])", time_str)
+                    if year_match:
+                        year = int(year_match.group(1))
+                    new_links.append(
+                        f"  {{ source:'{culture_id}',target:'{game_id}', depth:3, rating:'B', note:'{note}', year:{year} }},"
+                    )
+
+        if new_links:
+            # 在 ]; 结束标记前插入新link（找到links数组的结束位置）
+            # links数组以 "const links = [" 开头，以 "];" 结尾
+            insert_marker = "];\n"
+            # 找到 "const links = [" 之后的第一个 "];"
+            links_start = html_content.find("const links = [")
+            if links_start != -1:
+                links_end = html_content.find("];", links_start)
+                if links_end != -1:
+                    insert_text = "\n  // ─── [爬虫自动新增] ───\n" + "\n".join(new_links) + "\n"
+                    html_content = html_content[:links_end] + insert_text + html_content[links_end:]
+
+                    with open(html_file, "w", encoding="utf-8") as f:
+                        f.write(html_content)
+                    print(f"[OK] 自动追加 {len(new_links)} 条新link到 {html_file}")
+        else:
+            print(f"[OK] HTML links 已是最新，无需追加")
+
 
 if __name__ == "__main__":
     build()
