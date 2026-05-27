@@ -1381,7 +1381,6 @@ FILLED_DETAILS = {
         "revenue": "待补充",
         "socialBuzz": "待补充",
         "conversionNote": "待补充",
-        "source": "新闻标题: 二重螺旋联动上海交通卡 多城通用（原文: https://www.taptap.cn/moment/767101683506350626）"
         "source": "北伐兴汉开启!《率土之滨》×汉中×勉县联动端午主题服重磅来袭!（原文: http://news.17173.com/content/05282025/155107684.shtml）"
     },
 }
