@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>超自然行动组 × 非遗傩戏 · 案例详情</title>
+  <link rel="stylesheet" href="wireframe.css">
+  <link rel="stylesheet" href="case-detail.css">
+</head>
+<body>
+
+<!-- ============================================
+     SVG 图标库（与 case-detail.html 同一套）
+     ============================================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-list" viewBox="0 0 24 24">
+      <path d="M8 6h13M8 12h13M8 18h13"/>
+      <circle cx="4" cy="6"  r="1.2" fill="currentColor" stroke="none"/>
+      <circle cx="4" cy="12" r="1.2" fill="currentColor" stroke="none"/>
+      <circle cx="4" cy="18" r="1.2" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="i-similar" viewBox="0 0 24 24">
+      <circle cx="10" cy="10" r="6"/>
+      <path d="M19 19l-4.5-4.5"/>
+    </symbol>
+    <symbol id="i-building" viewBox="0 0 24 24">
+      <rect x="4" y="4" width="16" height="17" rx="1.5"/>
+      <path d="M9 8h.01M14 8h.01M9 12h.01M14 12h.01M9 16h.01M14 16h.01"/>
+    </symbol>
+    <symbol id="i-museum" viewBox="0 0 24 24">
+      <path d="M3 9l9-5 9 5M4 9v10M20 9v10M8 11v7M12 11v7M16 11v7M3 21h18"/>
+    </symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24">
+      <path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/>
+    </symbol>
+    <symbol id="i-album" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="18" height="18" rx="2"/>
+      <path d="M3 15l5-5 6 6M14 12l3-3 4 4"/>
+      <circle cx="9" cy="8" r="1.5"/>
+    </symbol>
+    <symbol id="i-quote" viewBox="0 0 24 24">
+      <path d="M7 7c-2 1-3 3-3 6v4h5v-5H6c0-2 1-3 3-4l-2-1zM17 7c-2 1-3 3-3 6v4h5v-5h-3c0-2 1-3 3-4l-2-1z"/>
+    </symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24">
+      <path d="M3 12V4h8l10 10-8 8L3 12z"/>
+      <circle cx="7.5" cy="7.5" r="1.2" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24">
+      <path d="M12 17v5M8 4h8l-1 6c2 1 3 2.5 3 4H6c0-1.5 1-3 3-4L8 4z"/>
+    </symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24">
+      <path d="M15 5l-7 7 7 7M8 12h13"/>
+    </symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24">
+      <path d="M9 5l7 7-7 7M3 12h13"/>
+    </symbol>
+    <symbol id="i-arrow-down" viewBox="0 0 24 24">
+      <path d="M6 9l6 6 6-6"/>
+    </symbol>
+    <symbol id="i-star" viewBox="0 0 24 24">
+      <path d="M12 3l2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.8 1-6.1L3.2 9.4l6.1-.9L12 3z"/>
+    </symbol>
+    <symbol id="i-share" viewBox="0 0 24 24">
+      <circle cx="6" cy="12" r="2.5"/>
+      <circle cx="18" cy="6" r="2.5"/>
+      <circle cx="18" cy="18" r="2.5"/>
+      <path d="M8.5 11l7-4M8.5 13l7 4"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="page">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <img src="logo-gamemuse.png" alt="Game MUSE · 游戏文化联动情报库" />
+    </div>
+    <nav class="nav">
+      <a href="home.html">首页</a>
+      <a href="cases.html" class="active">联动案例</a>
+    </nav>
+    <div class="user">👤 我的</div>
+  </header>
+
+  <!-- 面包屑 -->
+  <div class="breadcrumb">
+    <span>首页</span>
+    <span class="breadcrumb-sep">/</span>
+    <span>联动案例</span>
+    <span class="breadcrumb-sep">/</span>
+    <b>超自然行动组 × 非遗傩戏 「傩舞起，百鬼避」</b>
+  </div>
+
+  <div class="detail-body">
+
+    <!-- Hero 摘要卡 -->
+    <section class="detail-hero">
+      <div class="hero-cover" style="background:#000;padding:0;overflow:hidden;">
+        <img
+          src="images/craft_drama_g11_001/01_skin_合辑宣传图_仙锋小姐与搬开山.png"
+          alt="超自然行动组 × 非遗傩戏 · 仙锋小姐与搬开山合辑宣传图"
+          style="width:100%;height:100%;object-fit:cover;display:block;"
+        />
+      </div>
+      <div class="hero-info">
+        <div class="meta">
+          <svg class="icon icon--muted" aria-hidden="true"><use href="#i-tag"/></svg>
+          厂商：巨人网络　·　游戏：超自然行动组　·　IP：国家级非遗 · 傩戏
+        </div>
+        <h1>超自然行动组 × 非遗傩戏「傩舞起，百鬼避」傩面时装共创</h1>
+        <div class="sub">上线时间：2025-11-21　·　下架时间：2026-03-29　·　档期 129 天　·　联动类型：限定时装 + 共创 + 主题叙事</div>
+
+        <div class="conclusion">
+          <div class="label">
+            <svg class="icon" aria-hidden="true" style="color:var(--accent-hover);"><use href="#i-quote"/></svg>
+            编辑结论
+          </div>
+          中式微恐 × 国家级非遗的题材契合度成功验证：以"凶神/正神"双傩面对位"驱邪/守护"主题，特邀傩面雕刻第七代传人深度参与设计审核。社交传播量级显著（抖音预热互动千万级，待核实），是巨人网络"超自然 × 非遗系列"的首期联动。
+        </div>
+
+        <div class="kpi-cards">
+          <div class="kpi"><div class="label">上架档期</div><div class="value">129 天</div><div class="info">ⓘ 2025-11-21 ~ 2026-03-29</div></div>
+          <div class="kpi"><div class="label">抖音预热互动</div><div class="value">≈ 5272万</div><div class="info">ⓘ 待核实 · 低可信</div></div>
+          <div class="kpi"><div class="label">综合评级</div><div class="value">B 级</div><div class="info">ⓘ 4维评分 6/12</div></div>
+          <div class="kpi"><div class="label">文化层级</div><div class="value">国家级非遗</div><div class="info">ⓘ 傩戏 + 傩面雕刻</div></div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary">
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg> 收藏
+          </button>
+          <button class="btn">
+            <svg class="icon" aria-hidden="true"><use href="#i-share"/></svg> 分享
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 左侧栏：锚点导航 + 关联信息 -->
+    <aside class="left-side">
+      <nav class="anchor-nav">
+        <div class="label">
+          <svg class="icon" aria-hidden="true"><use href="#i-list"/></svg>
+          章节导航
+        </div>
+        <a href="#overview" class="active">概览</a>
+        <a href="#commercial">商业化表现</a>
+        <a href="#sentiment">舆情与用户反馈</a>
+        <a href="#content">联动内容</a>
+        <a href="#culture">文化考据</a>
+        <a href="#sources">数据来源</a>
+      </nav>
+
+      <div class="side-card">
+        <h4>
+          <svg class="icon" aria-hidden="true"><use href="#i-building"/></svg>
+          同厂商 · 巨人网络
+        </h4>
+        <ul class="side-list">
+          <li>超自然行动组 × 掐丝珐琅（同系列 2 期）</li>
+          <li>超自然行动组 × 华县皮影（同系列 3 期）</li>
+          <li>超自然行动组 × 故宫神兽</li>
+          <li>超自然行动组 × 昆仑山世界地质公园</li>
+          <li>超自然行动组 × 敦煌艺术馆</li>
+        </ul>
+      </div>
+
+      <div class="side-card">
+        <h4>
+          <svg class="icon" aria-hidden="true"><use href="#i-museum"/></svg>
+          同主题 · 非遗
+        </h4>
+        <ul class="side-list">
+          <li>原神 × 古蜀文明</li>
+          <li>明日方舟 × 昆曲</li>
+          <li>恋与深空 × 京剧</li>
+          <li>逆水寒 × 100+ 非遗</li>
+        </ul>
+      </div>
+
+      <div class="side-card">
+        <h4>
+          <svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg>
+          数据可信度
+        </h4>
+        <div class="trust-row"><span>商业化数据</span><span class="lvl-l">低</span></div>
+        <div class="trust-row"><span>社交互动数据</span><span class="lvl-l">低</span></div>
+        <div class="trust-row"><span>媒体覆盖</span><span class="lvl-m">中</span></div>
+        <div class="trust-row"><span>文化考据</span><span class="lvl-h">高</span></div>
+      </div>
+    </aside>
+
+    <!-- 主内容 -->
+    <main class="detail-main">
+
+      <section id="overview">
+        <h2>概览</h2>
+        <ul>
+          <li><b>联动类型：</b>限定皮肤 + 文化共创 + 主题叙事（非资料片级）</li>
+          <li><b>玩法形式：</b>两款角色限定时装 +「傩文化守护者」角色叙事 + 抖音预热视频</li>
+          <li><b>文化主题：</b>傩戏 / 傩面具雕刻 / 民俗驱邪纳福 / 中国民间神话象征（凶神 / 正神）</li>
+          <li><b>合作方：</b>杨云霞（沿河土家族自治县傩面具雕刻第七代传人）</li>
+          <li><b>授权类型：</b>传承人深度共创（partnership · 实质参与设计审核）</li>
+          <li><b>文化源地：</b>贵州省铜仁市沿河土家族自治县（土家族傩堂戏发源地之一）</li>
+          <li><b>系列归属：</b>超自然行动组 × 非遗系列联动（第 1 期 · 傩戏）</li>
+        </ul>
+      </section>
+
+      <section id="commercial">
+        <h2>商业化表现</h2>
+
+        <h3>流水估算 + 同品类基准对比</h3>
+        <div class="wf-placeholder" style="height:180px;">
+          [ 数据未公开 ]<br>
+          联动单独的商业数据未披露<br>
+          <span style="font-size:var(--text-xs);">游戏整体 2026Q1 累计流水超 50 亿元（无法归因到本次联动）</span>
+        </div>
+        <div class="source-note">
+          数据状态：未公开　·　按 schema v1.8 兜底规则记 null　·　建议关注巨人网络后续财报披露
+        </div>
+
+        <h3>促销活动</h3>
+        <ul>
+          <li><b>八五折优惠期：</b>2025-11-21 00:00 ~ 2025-12-04 23:59（联动专属，前两周）</li>
+          <li><b>时装上下架：</b>两款时装均为 2025-11-21 ~ 2026-03-29，档期 129 天</li>
+          <li><b>定价信息：</b>未公开</li>
+        </ul>
+
+        <h3>综合评级：B 级</h3>
+        <p>评级依据（4 维评分 6/12）：A 社交传播 3 分（抖音预热互动量级千万级，待核实）+ B 商业表现 1 分（数据缺失兜底）+ C 媒体覆盖 1 分（地方党媒 + 行业聚合，无央媒）+ D 文化影响力 1 分（圈层内讨论）。</p>
+        <p class="wf-muted">ⓘ 商业维度数据缺失，B 维度兜底 1 分；needs_review = true</p>
+      </section>
+
+      <section id="sentiment">
+        <h2>舆情与用户反馈</h2>
+
+        <h3>情感分布 + 总声量</h3>
+        <div class="sentiment-block">
+          <!-- 头部：时间段 + 总声量 -->
+          <div class="sentiment-head">
+            <div class="sentiment-period">2025-11-21 ~ 2025-12-04　<span class="wf-muted">（联动上线前两周 / 八五折优惠期）</span></div>
+            <div class="sentiment-total">
+              <span class="label">总声量</span>
+              <span class="value">30.04 K</span>
+            </div>
+          </div>
+
+          <!-- 横向堆叠条：正面/中性/负面 -->
+          <div class="sentiment-bar" role="img" aria-label="情感分布：正面 11.51%、中性 58.98%、负面 29.52%">
+            <span class="seg seg-pos" style="width:11.51%;" title="正面 3.46K (11.51%)"></span>
+            <span class="seg seg-neu" style="width:58.98%;" title="中性 17.72K (58.98%)"></span>
+            <span class="seg seg-neg" style="width:29.52%;" title="负面 8.87K (29.52%)"></span>
+          </div>
+
+          <!-- 图例三列 -->
+          <div class="sentiment-legend">
+            <div class="legend-item">
+              <span class="dot dot-pos"></span>
+              <span class="legend-label">正面</span>
+              <span class="legend-num">3.46 K</span>
+              <span class="legend-pct">(11.51%)</span>
+            </div>
+            <div class="legend-item">
+              <span class="dot dot-neu"></span>
+              <span class="legend-label">中性</span>
+              <span class="legend-num">17.72 K</span>
+              <span class="legend-pct">(58.98%)</span>
+            </div>
+            <div class="legend-item">
+              <span class="dot dot-neg"></span>
+              <span class="legend-label">负面</span>
+              <span class="legend-num">8.87 K</span>
+              <span class="legend-pct">(29.52%)</span>
+            </div>
+          </div>
+        </div>
+        <div class="source-note">
+          数据来源：DataBrain　·　采集范围：游戏商店 + 社交媒体　·　采集时段：2025-11-21 ~ 2025-12-04
+        </div>
+
+        <h3>抖音预热互动量</h3>
+        <div class="wf-placeholder" style="height:100px;">
+          [ 抖音预热视频 · 喜欢量约 5272 万 ]<br>
+          <span style="font-size:var(--text-xs);">来源：搜索引擎索引摘要 · 原始视频页 JS 动态加载未能直接核实</span>
+        </div>
+        <div class="source-note">
+          原视频链接：douyin.com/video/7572613781612809512　·　可信度：低（待通过蝉妈妈/抖查查等第三方平台核实）
+        </div>
+
+        <h3>Top 5 好评 / Top 5 差评关键词</h3>
+        <div class="kw-grid">
+          <table>
+            <thead><tr><th>✅ 好评关键词</th><th>提及量</th></tr></thead>
+            <tbody class="pos">
+              <tr><td>——</td><td>待采集</td></tr>
+              <tr><td>——</td><td>待采集</td></tr>
+              <tr><td>——</td><td>待采集</td></tr>
+              <tr><td>——</td><td>待采集</td></tr>
+              <tr><td>——</td><td>待采集</td></tr>
+            </tbody>
+          </table>
+          <table>
+            <thead><tr><th>❌ 差评关键词</th><th>提及量</th></tr></thead>
+            <tbody class="neg">
+              <tr><td>——</td><td>待采集</td></tr>
+              <tr><td>——</td><td>待采集</td></tr>
+              <tr><td>——</td><td>待采集</td></tr>
+              <tr><td>——</td><td>待采集</td></tr>
+              <tr><td>——</td><td>待采集</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="source-note">
+          待人工采集：建议从 B站 / 微博 / TapTap / 小红书 系统化抓取并做情感分析
+        </div>
+
+        <h3>媒体定性评价</h3>
+        <div class="comment">
+          《游戏+非遗如何破圈？〈超自然行动组〉探索传统文化年轻化路径》——以"中式微恐+非遗"题材契合度切入，将本次联动定性为"该产品文化选题匹配度的一次成功尝试"。
+          <div class="meta">— 信息日报（江西网 jxnews.com.cn）· 2026-03-24 · 地方党媒系</div>
+        </div>
+        <div class="comment">
+          玩家社区围绕"中式微恐 + 傩面"题材契合度产生讨论，但未见跨圈层文化运动 / 线下打卡 / 官方非遗推广名录纳入等更高层级反响。
+          <div class="meta">— 玩家社区综合（来源：信息日报报道转述）</div>
+        </div>
+        <div class="wf-tiny" style="text-align:center;">原始玩家评论暂未做系统采集 →</div>
+      </section>
+
+      <section id="content">
+        <h2>联动内容</h2>
+
+        <h3>活动结构与时间线</h3>
+        <div class="wf-placeholder" style="height:120px;">
+          [ 时间线 ]<br>
+          2025-11-20 版本更新 → 2025-11-21 00:00 联动正式上线 / 时装上架 → 2025-12-04 23:59 八五折优惠期结束 → 2026-03-29 23:59 时装下架（档期 129 天）
+        </div>
+
+        <h3>限定时装 / 共创内容清单</h3>
+        <div class="skin-list">
+          <div class="skin-card">
+            <div class="ph" style="background:#000;padding:0;">
+              <img
+                src="images/craft_drama_g11_001/04_icon_搬开山时装图标.png"
+                alt="零·搬开山 时装图标"
+                style="width:100%;height:100%;object-fit:cover;display:block;"
+              />
+            </div>
+            <div class="body">
+              <b>零·搬开山</b><br>
+              凶神傩面 · 未公开定价
+            </div>
+          </div>
+          <div class="skin-card">
+            <div class="ph" style="background:#000;padding:0;">
+              <img
+                src="images/craft_drama_g11_001/05_icon_仙锋小姐时装图标.png"
+                alt="薇薇安·仙锋小姐 时装图标"
+                style="width:100%;height:100%;object-fit:cover;display:block;"
+              />
+            </div>
+            <div class="body">
+              <b>薇薇安·仙锋小姐</b><br>
+              正神傩面 · 未公开定价
+            </div>
+          </div>
+          <div class="skin-card">
+            <div class="ph" style="background:#000;padding:0;">
+              <img
+                src="images/craft_drama_g11_001/03_logo_非遗傩戏联动角标.png"
+                alt="非遗傩戏联动角标"
+                style="width:100%;height:100%;object-fit:contain;display:block;background:#FEFAFB;"
+              />
+            </div>
+            <div class="body">
+              <b>傩文化守护者</b><br>
+              主题叙事包装
+            </div>
+          </div>
+          <div class="skin-card">
+            <div class="ph"></div>
+            <div class="body">
+              <b>杨云霞共创</b><br>
+              传承人设计审核
+            </div>
+          </div>
+        </div>
+
+        <h3>视觉资产</h3>
+        <div class="gallery">
+          <div class="ph" style="background:#000;padding:0;">
+            <img
+              src="images/craft_drama_g11_001/01_skin_合辑宣传图_仙锋小姐与搬开山.png"
+              alt="合辑宣传图"
+              style="width:100%;height:100%;object-fit:cover;display:block;"
+            />
+          </div>
+          <div class="ph" style="background:#FEFAFB;padding:0;">
+            <img
+              src="images/craft_drama_g11_001/02_update_一图速览_2025-11-20.jpg"
+              alt="2025-11-20 版本一图速览"
+              style="width:100%;height:100%;object-fit:cover;display:block;"
+            />
+          </div>
+          <div class="ph" style="background:#FEFAFB;padding:0;">
+            <img
+              src="images/craft_drama_g11_001/03_logo_非遗傩戏联动角标.png"
+              alt="联动角标"
+              style="width:100%;height:100%;object-fit:contain;display:block;"
+            />
+          </div>
+          <div class="ph" style="background:#000;padding:0;">
+            <img
+              src="images/craft_drama_g11_001/04_icon_搬开山时装图标.png"
+              alt="搬开山图标"
+              style="width:100%;height:100%;object-fit:cover;display:block;"
+            />
+          </div>
+          <div class="ph" style="background:#000;padding:0;">
+            <img
+              src="images/craft_drama_g11_001/05_icon_仙锋小姐时装图标.png"
+              alt="仙锋小姐图标"
+              style="width:100%;height:100%;object-fit:cover;display:block;"
+            />
+          </div>
+          <div class="ph">[ 待补 · 独立立绘 ]</div>
+          <div class="ph">[ 待补 · 传承人工艺照 ]</div>
+          <div class="ph">[ 待补 · 局内动作截图 ]</div>
+        </div>
+        <div class="wf-tiny" style="text-align:center;margin-top:8px;">现有 5 张官方物料，3 张待补 →</div>
+      </section>
+
+      <section id="culture">
+        <h2>文化考据</h2>
+
+        <h3>联动文化元素清单</h3>
+        <div class="culture-elem">
+          <div class="ph"></div>
+          <div><b>元素 1：凶神傩面（驱邪镇煞）</b><br>
+            <span class="wf-muted">化身于「零·搬开山」时装：头戴辟邪铜钱、战国袍宽袖长摆、盔甲元素与火焰纹样；战斗动作凸显傩舞驱邪威严步态。</span>
+          </div>
+          <div class="link">资产库 →</div>
+        </div>
+        <div class="culture-elem">
+          <div class="ph"></div>
+          <div><b>元素 2：正神傩面 · 仙锋小姐</b><br>
+            <span class="wf-muted">化身于「薇薇安·仙锋小姐」时装：眉眼神秘与慈悲并存、裙袂如云、叠映祥纹、傩面敷彩上漆；沿河土家族傩戏经典正神角色。</span>
+          </div>
+          <div class="link">资产库 →</div>
+        </div>
+        <div class="culture-elem">
+          <div class="ph"></div>
+          <div><b>元素 3：傩仪文化内核</b><br>
+            <span class="wf-muted">"代神行事 · 驱邪纳福" — 与游戏"超自然 / 微恐"世界观贯通，承载主题叙事的精神坐标。</span>
+          </div>
+          <div class="link">资产库 →</div>
+        </div>
+
+        <h3>专家评价</h3>
+        <div class="comment">
+          傩面不是冰冷脸谱，是与千年对话、代神行事、驱邪纳福。
+          <div class="meta">— 杨云霞（沿河土家族傩面具雕刻第七代传人）· 信息日报转载 · 2026-03-24</div>
+        </div>
+        <div class="comment">
+          鸣潮团队大量翻阅傩戏与傩面具文献资料，在色彩、面具细节、人物动作等维度力求还原；传承人对设计中的傩面色彩、敷彩、上漆等工艺细节进行把关。
+          <div class="meta">— 巨人网络官方联动资讯（ztgame.com）· 2025-11</div>
+        </div>
+
+        <h3>合规情况</h3>
+        <ul>
+          <li>✓ 文化等级：国家级非物质文化遗产（傩戏） + 县级技艺传承谱系（傩面具雕刻第七代）</li>
+          <li>✓ 合作方身份：沿河土家族自治县傩面具雕刻第七代传人杨云霞</li>
+          <li>✓ 合作形式：partnership 共创合作（实质参与设计审核 + 文化阐释输出）</li>
+          <li>⚠ 学术联合署名 / 官方 MOU 文件：未见明确披露</li>
+          <li>⚠ 央媒 / 官媒级背书：未见</li>
+        </ul>
+      </section>
+
+      <section id="sources">
+        <h2>数据来源</h2>
+        <div class="sources-list">
+          <div class="src-item">[1] 巨人网络官方联动资讯（主源） — ztgame.com/news/000-1763-005a4-974555.html</div>
+          <div class="src-item">[2] 超自然行动组官方资讯 — chaoziran.com/news/222</div>
+          <div class="src-item">[3] 信息日报报道（地方党媒） — m.jxnews.com.cn/xxrb/system/2026/03/24/031084211.shtml</div>
+          <div class="src-item">[4] BWIKI 时装词条「搬开山」— wiki.biligame.com/chaoziran/搬开山（含上下架时间 + 八五折优惠期）</div>
+          <div class="src-item">[5] BWIKI 时装词条「仙锋小姐」— wiki.biligame.com/chaoziran/仙锋小姐</div>
+          <div class="src-item">[6] BWIKI 版本公告 2025-11-20 — wiki.biligame.com/chaoziran/2025年11月20日更新公告</div>
+          <div class="src-item">[7] 官方抖音预热视频 — douyin.com/video/7572613781612809512（互动数据待核实）</div>
+          <div class="src-item">[8] 中国傩戏网 · 杨云霞传承人背景资料 — zgnuoxi.com/renwu/view_1385.html</div>
+          <div class="src-item">[9] 百度百科 · 超自然行动组游戏属性 — baike.baidu.com/item/超自然行动组</div>
+          <div class="src-item">[10] 图片资产（5 张）— patchwiki.biligame.com（BWIKI CDN）· 已下载至本地 images/craft_drama_g11_001/</div>
+          <div class="src-item" style="color:var(--accent-hover);">⚠ 案例标记 needs_review = true：商业数据缺失、社交互动数据来自搜索引擎索引摘要，待人工复核</div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 右侧画廊：浏览其他案例 -->
+    <aside class="detail-side gallery-side">
+      <div class="gallery-label">
+        <svg class="icon" aria-hidden="true"><use href="#i-album"/></svg>
+        浏览其他案例
+      </div>
+
+      <a class="gallery-card active" href="#">
+        <div class="cover">[ 当前 ]</div>
+        <div class="title">超自然行动组 × 非遗傩戏（当前）</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">超自然行动组 × 掐丝珐琅</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">超自然行动组 × 华县皮影</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">超自然行动组 × 故宫神兽</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">超自然行动组 × 敦煌艺术馆</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">明日方舟 × 昆曲</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">恋与深空 × 京剧</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">逆水寒 × 100+ 非遗</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">原神 × 古蜀文明</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">梦幻西游 × 山西文博</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">永劫无间 × 上海博物馆</div>
+      </a>
+
+      <div class="gallery-more">
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow-down"/></svg>
+        滚动查看更多
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- 翻页 -->
+  <div class="pager">
+    <a class="pager-btn" href="#">
+      <svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg>
+      上一个：超自然行动组 × 敦煌艺术馆
+    </a>
+    <span class="center">系列第 1 / 3 期　·　按 ← / → 键翻页</span>
+    <a class="pager-btn" href="#">
+      下一个：超自然行动组 × 掐丝珐琅
+      <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+    </a>
+  </div>
+
+  <!-- 推荐阅读 -->
+  <section class="recommend-section">
+    <h2>
+      <svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>
+      看完这个案例的人还看了
+    </h2>
+    <div class="recommend-grid">
+      <div class="case-card">
+        <div class="cover">[封面]</div>
+        <div class="body"><div class="title">超自然行动组 × 掐丝珐琅</div><div class="meta">巨人网络 · 2026 系列 2 期</div></div>
+      </div>
+      <div class="case-card">
+        <div class="cover">[封面]</div>
+        <div class="body"><div class="title">超自然行动组 × 华县皮影</div><div class="meta">巨人网络 · 2026 系列 3 期</div></div>
+      </div>
+      <div class="case-card">
+        <div class="cover">[封面]</div>
+        <div class="body"><div class="title">明日方舟 × 昆曲</div><div class="meta">鹰角 · 非遗 · 戏曲</div></div>
+      </div>
+      <div class="case-card">
+        <div class="cover">[封面]</div>
+        <div class="body"><div class="title">恋与深空 × 京剧</div><div class="meta">叠纸 · 非遗 · 戏曲</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    关于我们 · 数据来源说明 · 反馈与建议<br>
+    <span class="wf-tiny">© 2026 游戏文化联动情报库 · 案例数据：craft_drama_g11_001 · needs_review</span>
+  </footer>
+
+</div>
+
+<!-- 锚点导航高亮联动（与 case-detail.html 同一逻辑） -->
+<script>
+(function () {
+  const navLinks = document.querySelectorAll('.anchor-nav a[href^="#"]');
+  if (!navLinks.length) return;
+
+  const linkMap = new Map();
+  const sections = [];
+  navLinks.forEach(a => {
+    const id = a.getAttribute('href').slice(1);
+    const sec = document.getElementById(id);
+    if (sec) {
+      linkMap.set(id, a);
+      sections.push(sec);
+    }
+  });
+
+  function setActive(id) {
+    navLinks.forEach(a => a.classList.remove('active'));
+    const target = linkMap.get(id);
+    if (target) target.classList.add('active');
+  }
+
+  const TOP_OFFSET = 120;
+
+  const observer = new IntersectionObserver(
+    () => {
+      const visible = sections
+        .map(sec => ({ id: sec.id, top: sec.getBoundingClientRect().top }))
+        .filter(s => s.top - TOP_OFFSET <= 1)
+        .sort((a, b) => b.top - a.top);
+      if (visible.length) setActive(visible[0].id);
+      else setActive(sections[0].id);
+    },
+    { rootMargin: `-${TOP_OFFSET}px 0px -50% 0px`, threshold: 0 }
+  );
+  sections.forEach(sec => observer.observe(sec));
+
+  navLinks.forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href').slice(1);
+      const sec = document.getElementById(id);
+      if (!sec) return;
+      e.preventDefault();
+      const top = sec.getBoundingClientRect().top + window.scrollY - TOP_OFFSET + 1;
+      window.scrollTo({ top, behavior: 'smooth' });
+      setActive(id);
+      history.replaceState(null, '', '#' + id);
+    });
+  });
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const candidates = sections
+        .map(sec => ({ id: sec.id, top: sec.getBoundingClientRect().top }))
+        .filter(s => s.top - TOP_OFFSET <= 1)
+        .sort((a, b) => b.top - a.top);
+      if (candidates.length) setActive(candidates[0].id);
+      else setActive(sections[0].id);
+      ticking = false;
+    });
+  }, { passive: true });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>案例库列表页 · 游戏文化联动情报库（线框图）</title>
+  <link rel="stylesheet" href="wireframe.css">
+  <link rel="stylesheet" href="cases.css">
+</head>
+<body>
+
+<!-- ============================================
+     SVG 图标库（symbol 复用）
+     ============================================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- 🔍 搜索 -->
+    <symbol id="i-search" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="6.5"/>
+      <path d="M20 20l-3.8-3.8"/>
+    </symbol>
+    <!-- 🕸 关系网 -->
+    <symbol id="i-network" viewBox="0 0 24 24">
+      <circle cx="5" cy="6" r="2.2"/>
+      <circle cx="19" cy="6" r="2.2"/>
+      <circle cx="12" cy="13" r="2.2"/>
+      <circle cx="5" cy="19" r="2.2"/>
+      <circle cx="19" cy="19" r="2.2"/>
+      <path d="M7 7l3.5 4.5M17 7l-3.5 4.5M10.5 14.5L7 18M13.5 14.5L17 18"/>
+    </symbol>
+    <!-- 💡 已保存的方案（书签） -->
+    <symbol id="i-bookmark" viewBox="0 0 24 24">
+      <path d="M6 4h12v17l-6-4-6 4V4z"/>
+    </symbol>
+    <!-- 🎮 游戏维度（手柄） -->
+    <symbol id="i-gamepad" viewBox="0 0 24 24">
+      <path d="M6.5 8h11a4 4 0 0 1 4 4v.5a3.5 3.5 0 0 1-6.4 1.9L14 13h-4l-1.1 1.4A3.5 3.5 0 0 1 2.5 12.5V12a4 4 0 0 1 4-4z"/>
+      <path d="M7.5 11.5h2M8.5 10.5v2"/>
+      <circle cx="15.5" cy="11" r="0.6" fill="currentColor" stroke="none"/>
+      <circle cx="17" cy="12.5" r="0.6" fill="currentColor" stroke="none"/>
+    </symbol>
+    <!-- 🎨 联动维度（调色板） -->
+    <symbol id="i-palette" viewBox="0 0 24 24">
+      <path d="M12 3a9 9 0 0 0 0 18c1.2 0 2-.9 2-2 0-.6-.2-1.2-.6-1.6-.4-.4-.6-1-.6-1.6 0-1.2.9-2 2-2H17a4 4 0 0 0 4-4c0-3.9-4-7-9-7z"/>
+      <circle cx="7.5" cy="10.5" r="1" fill="currentColor" stroke="none"/>
+      <circle cx="10" cy="7" r="1" fill="currentColor" stroke="none"/>
+      <circle cx="14.5" cy="7" r="1" fill="currentColor" stroke="none"/>
+      <circle cx="17" cy="10.5" r="1" fill="currentColor" stroke="none"/>
+    </symbol>
+    <!-- 📅 时间维度（日历） -->
+    <symbol id="i-calendar" viewBox="0 0 24 24">
+      <rect x="3.5" y="5" width="17" height="15" rx="2"/>
+      <path d="M3.5 10h17M8 3v4M16 3v4"/>
+    </symbol>
+    <!-- 📊 效果维度（柱状图） -->
+    <symbol id="i-bar-chart" viewBox="0 0 24 24">
+      <path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/>
+    </symbol>
+    <!-- 🔖 标签 -->
+    <symbol id="i-tag" viewBox="0 0 24 24">
+      <path d="M3 12V4h8l10 10-8 8L3 12z"/>
+      <circle cx="7.5" cy="7.5" r="1.2" fill="currentColor" stroke="none"/>
+    </symbol>
+    <!-- 🏷 chip 标签前缀（小标签） -->
+    <symbol id="i-tag-sm" viewBox="0 0 24 24">
+      <path d="M3 12V4h8l10 10-8 8L3 12z"/>
+    </symbol>
+    <!-- 闭合 ✕ -->
+    <symbol id="i-close" viewBox="0 0 24 24">
+      <path d="M6 6l12 12M18 6L6 18"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="page">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <img src="logo-gamemuse.png" alt="Game MUSE · 游戏文化联动情报库" />
+    </div>
+    <nav class="nav">
+      <a href="home.html">首页</a>
+      <a href="cases.html" class="active">联动案例</a>
+    </nav>
+    <div class="user">👤 我的</div>
+  </header>
+
+  <!-- 顶部搜索栏（与 home.html 一致，含玫红按钮） -->
+  <section class="search-section">
+    <div class="search-box">
+      <span class="search-box__placeholder">搜索联动案例 / 游戏 / IP / 文化主题…</span>
+      <button type="button" class="search-box__btn" aria-label="搜索">
+        <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>搜索</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 关系图面板（默认展开，可折叠） -->
+  <section class="graph-panel expanded" id="graph-panel">
+    <div class="graph-panel-header">
+      <div class="graph-panel-title">
+        <svg class="icon icon--accent" aria-hidden="true"><use href="#i-network"/></svg>
+        联动关系图
+        <span class="graph-panel-sub" id="graph-stats">基于当前筛选条件动态展示</span>
+      </div>
+      <div class="graph-panel-actions">
+        <span class="graph-panel-tip" id="graph-tip">点击节点 → 高亮其关联</span>
+        <button class="graph-panel-toggle" id="graph-toggle" type="button">▲ 收起关系图</button>
+      </div>
+    </div>
+    <div class="graph-panel-body" id="graph-canvas"></div>
+  </section>
+
+  <!-- 主体：左筛选 + 右卡片墙 -->
+  <div class="cases-page">
+
+    <!-- 左侧筛选器（默认展开） -->
+    <aside class="sidebar">
+      <span class="collapse-toggle">▶ 折叠</span>
+
+      <h4><svg class="icon" aria-hidden="true"><use href="#i-bookmark"/></svg> 已保存的方案</h4>
+      <label><input type="checkbox"> 我的常用</label>
+      <label><input type="checkbox"> 二游标杆案例</label>
+      <label style="color:var(--text-muted)">+ 保存当前筛选</label>
+
+      <h4><svg class="icon" aria-hidden="true"><use href="#i-gamepad"/></svg> 游戏维度</h4>
+      <label><input type="checkbox" checked> 品类：二次元</label>
+      <label><input type="checkbox"> 品类：SLG</label>
+      <label><input type="checkbox"> 品类：MOBA</label>
+      <label><input type="checkbox"> 品类：卡牌</label>
+      <label style="color:var(--text-muted)">+ 更多品类</label>
+      <label><input type="checkbox" checked> 体量：大厂</label>
+      <label><input type="checkbox" checked> 体量：中厂</label>
+      <label><input type="checkbox"> 体量：小厂/独立</label>
+
+      <h4><svg class="icon" aria-hidden="true"><use href="#i-palette"/></svg> 联动维度</h4>
+      <label><input type="checkbox"> 主题：三星堆</label>
+      <label><input type="checkbox"> 主题：敦煌</label>
+      <label><input type="checkbox"> 主题：茶文化</label>
+      <label><input type="checkbox"> 主题：京剧</label>
+      <label style="color:var(--text-muted)">+ 更多主题</label>
+      <label><input type="checkbox"> 玩法：皮肤</label>
+      <label><input type="checkbox"> 玩法：活动</label>
+      <label><input type="checkbox"> 玩法：资料片</label>
+      <label><input type="checkbox"> 深度：深度共创</label>
+
+      <h4><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg> 时间维度</h4>
+      <label><input type="checkbox" checked> 近 12 月</label>
+      <label><input type="checkbox"> 近 6 月</label>
+      <label><input type="checkbox"> 近 3 月</label>
+      <label><input type="checkbox"> 自定义范围</label>
+
+      <h4><svg class="icon" aria-hidden="true"><use href="#i-bar-chart"/></svg> 效果维度</h4>
+      <label><input type="checkbox"> S 级</label>
+      <label><input type="checkbox"> A 级</label>
+      <label><input type="checkbox"> B 级</label>
+      <label><input type="checkbox"> 翻车 / 争议</label>
+      <label><input type="checkbox"> 口碑好</label>
+      <label><input type="checkbox"> 口碑差</label>
+
+      <h4><svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg> 标签</h4>
+      <input type="text" placeholder="标签搜索">
+    </aside>
+
+    <!-- 右侧主区 -->
+    <main class="cases-main">
+
+      <!-- 顶部已选筛选条 -->
+      <div class="filter-bar">
+        <div class="chips">
+          <span class="wf-tiny"><svg class="icon" aria-hidden="true"><use href="#i-tag-sm"/></svg> 当前筛选：</span>
+          <span class="chip">品类：二次元 <span class="x" aria-label="移除">✕</span></span>
+          <span class="chip">厂商体量：大厂+中厂 <span class="x" aria-label="移除">✕</span></span>
+          <span class="chip">近 12 月 <span class="x" aria-label="移除">✕</span></span>
+          <span class="wf-tiny">清空全部</span>
+        </div>
+      </div>
+
+      <!-- 卡片墙（响应式自适应列数） -->
+      <div class="cases-grid">
+
+        <a href="case-detail.html">
+        <div class="case-card">
+          <div class="cover">[ 封面 16:9 ]</div>
+          <div class="body">
+            <div class="title">鸣潮 × 三星堆</div>
+            <div class="meta">库洛 · 2026-06-10</div>
+            <div class="badges"><span class="money">💰3.2亿</span><span class="s-rank">S级</span><span>28天</span></div>
+            <div class="tags">#三星堆 #二游 #深度</div>
+          </div>
+        </div>
+        </a>
+
+        <div class="case-card">
+          <div class="cover">[ 封面 16:9 ]</div>
+          <div class="body">
+            <div class="title">原神 × 中国茶</div>
+            <div class="meta">米哈游 · 2026-05-20</div>
+            <div class="badges"><span class="money">💰8亿</span><span class="s-rank">S级</span><span>35天</span></div>
+            <div class="tags">#茶文化 #非遗</div>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="cover">[ 封面 16:9 ]</div>
+          <div class="body">
+            <div class="title">王者荣耀 × 敦煌</div>
+            <div class="meta">腾讯 · 2026-04-15</div>
+            <div class="badges"><span class="money">💰1.5亿</span><span class="b-rank">B级</span><span>14天</span></div>
+            <div class="tags">#敦煌 #莫高窟 #争议</div>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="cover">[ 封面 16:9 ]</div>
+          <div class="body">
+            <div class="title">恋与深空 × 京剧</div>
+            <div class="meta">叠纸 · 2026-06-01</div>
+            <div class="badges"><span class="money">💰未公开</span><span class="a-rank">A级</span><span>21天</span></div>
+            <div class="tags">#京剧 #女性向</div>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="cover">[ 封面 16:9 ]</div>
+          <div class="body">
+            <div class="title">明日方舟 × 昆曲</div>
+            <div class="meta">鹰角 · 2026-05-25</div>
+            <div class="badges"><span class="money">💰未公开</span><span class="a-rank">A级</span><span>21天</span></div>
+            <div class="tags">#昆曲 #非遗</div>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="cover">[ 封面 16:9 ]</div>
+          <div class="body">
+            <div class="title">蛋仔派对 × 三星堆</div>
+            <div class="meta">网易 · 2026-05-10</div>
+            <div class="badges"><span class="money">💰2.1亿</span><span class="a-rank">A级</span><span>30天</span></div>
+            <div class="tags">#三星堆 #休闲</div>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="cover">[ 封面 16:9 ]</div>
+          <div class="body">
+            <div class="title">原神 × 京剧</div>
+            <div class="meta">米哈游 · 2026-04-01</div>
+            <div class="badges"><span class="money">💰6.5亿</span><span class="s-rank">S级</span><span>35天</span></div>
+            <div class="tags">#京剧 #国风</div>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="cover">[ 封面 16:9 ]</div>
+          <div class="body">
+            <div class="title">鸣潮 × 京剧</div>
+            <div class="meta">库洛 · 2026-03-20</div>
+            <div class="badges"><span class="money">💰2.4亿</span><span class="a-rank">A级</span><span>28天</span></div>
+            <div class="tags">#京剧 #二游</div>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="cover">[ 封面 16:9 ]</div>
+          <div class="body">
+            <div class="title">第五人格 × 神话</div>
+            <div class="meta">网易 · 2026-03-15</div>
+            <div class="badges"><span class="money">💰1.8亿</span><span class="b-rank">B级</span><span>21天</span></div>
+            <div class="tags">#神话 #暗黑风</div>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="cover">[ 封面 16:9 ]</div>
+          <div class="body">
+            <div class="title">逆水寒 × 武侠</div>
+            <div class="meta">网易 · 2026-02-28</div>
+            <div class="badges"><span class="money">💰5亿</span><span class="s-rank">S级</span><span>45天</span></div>
+            <div class="tags">#武侠 #国风</div>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="cover">[ 封面 16:9 ]</div>
+          <div class="body">
+            <div class="title">和平精英 × 国风</div>
+            <div class="meta">腾讯 · 2026-02-10</div>
+            <div class="badges"><span class="money">💰3亿</span><span class="b-rank">B级</span><span>21天</span></div>
+            <div class="tags">#国风 #FPS</div>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="cover">[ 封面 16:9 ]</div>
+          <div class="body">
+            <div class="title">崩坏：星穹铁道 × 茶</div>
+            <div class="meta">米哈游 · 2026-01-25</div>
+            <div class="badges"><span class="money">💰7亿</span><span class="s-rank">S级</span><span>42天</span></div>
+            <div class="tags">#茶文化 #二游</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="load-more">
+        ⌄ 滚动加载更多 / 或：[1] [2] [3] [4] … [24]
+      </div>
+
+    </main>
+
+  </div>
+
+</div>
+
+<!-- ============================================
+     关系图渲染 + 折叠 + 筛选联动
+     ============================================ -->
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script src="mock-data.js"></script>
+<script>
+(function () {
+  const DATA = window.MOCK_DATA;
+  if (!DATA) {
+    console.error('mock-data.js 未加载');
+    return;
+  }
+
+  /* ==================================================
+   * 1. 折叠 / 展开 关系图面板
+   * ================================================== */
+  const panel = document.getElementById('graph-panel');
+  const toggleBtn = document.getElementById('graph-toggle');
+  let chartInstance = null;
+
+  toggleBtn.addEventListener('click', () => {
+    const isExpanded = panel.classList.toggle('expanded');
+    panel.classList.toggle('collapsed', !isExpanded);
+    toggleBtn.textContent = isExpanded ? '▲ 收起关系图' : '▼ 展开关系图';
+    if (isExpanded && chartInstance) {
+      // 等待动画结束再 resize
+      setTimeout(() => chartInstance.resize(), 320);
+    }
+  });
+
+  /* ==================================================
+   * 2. 监听左侧筛选器 - 收集当前筛选条件
+   * ================================================== */
+  function getActiveFilters() {
+    const filters = {
+      categories: [],   // 品类（无对应字段，UI 占位用）
+      companies: [],    // 厂商体量（mock 没有体量字段，仅 UI 占位）
+      themes: [],       // 主题 ID
+      timeRange: null   // "近12月" / "近6月" / "近3月" / null
+    };
+
+    document.querySelectorAll('.sidebar input[type="checkbox"]:checked').forEach(cb => {
+      const text = cb.parentElement.textContent.trim();
+
+      // 主题筛选
+      if (text.startsWith('主题：')) {
+        const themeName = text.replace('主题：', '').trim();
+        const t = DATA.themes.find(x => x.name.includes(themeName));
+        if (t) filters.themes.push(t.id);
+      }
+      // 时间筛选
+      else if (text.includes('近 12 月')) filters.timeRange = 12;
+      else if (text.includes('近 6 月'))  filters.timeRange = 6;
+      else if (text.includes('近 3 月'))  filters.timeRange = 3;
+    });
+
+    return filters;
+  }
+
+  /* ==================================================
+   * 3. 根据筛选条件构建图数据（过滤模式）
+   * ================================================== */
+  function buildGraphData() {
+    const filters = getActiveFilters();
+    const now = 2026;
+
+    // 1) 先过滤 collaborations
+    let collabs = DATA.collaborations.slice();
+
+    if (filters.themes.length > 0) {
+      collabs = collabs.filter(c => filters.themes.includes(c.theme));
+    }
+    if (filters.timeRange) {
+      const cutoff = filters.timeRange === 12 ? 2025 :
+                     filters.timeRange === 6  ? 2025.5 : 2025.75;
+      collabs = collabs.filter(c => c.year >= cutoff);
+    }
+
+    // 2) 推导出涉及的游戏、厂商、主题
+    const gameIds = new Set(collabs.map(c => c.game));
+    const themeIds = new Set(collabs.map(c => c.theme));
+    const companyIds = new Set();
+    DATA.games.forEach(g => {
+      if (gameIds.has(g.id)) companyIds.add(g.company);
+    });
+
+    // 3) 构造节点
+    const nodes = [];
+    DATA.companies.forEach(c => {
+      if (!companyIds.has(c.id)) return;
+      // 该厂商在筛选范围内的联动数
+      const myCollabCount = collabs.filter(co => {
+        const g = DATA.games.find(g => g.id === co.game);
+        return g && g.company === c.id;
+      }).length;
+      nodes.push({
+        id: 'co-' + c.id,
+        name: c.name,
+        category: 0,
+        symbolSize: 26 + Math.min(myCollabCount * 2, 18),
+        value: myCollabCount,
+        _type: 'company'
+      });
+    });
+    DATA.games.forEach(g => {
+      if (!gameIds.has(g.id)) return;
+      nodes.push({
+        id: 'ga-' + g.id,
+        name: g.name,
+        category: 1,
+        symbolSize: 14,
+        _type: 'game'
+      });
+    });
+    DATA.themes.forEach(t => {
+      if (!themeIds.has(t.id)) return;
+      const myLinkCount = collabs.filter(co => co.theme === t.id).length;
+      nodes.push({
+        id: 'th-' + t.id,
+        name: t.name,
+        category: 2,
+        symbolSize: 14 + Math.min(myLinkCount * 3, 18),
+        value: myLinkCount,
+        _type: 'theme'
+      });
+    });
+
+    // 4) 构造边
+    const links = [];
+    DATA.games.forEach(g => {
+      if (gameIds.has(g.id) && companyIds.has(g.company)) {
+        links.push({ source: 'co-' + g.company, target: 'ga-' + g.id });
+      }
+    });
+    collabs.forEach(c => {
+      links.push({ source: 'ga-' + c.game, target: 'th-' + c.theme });
+    });
+
+    return { nodes, links, collabCount: collabs.length };
+  }
+
+  /* ==================================================
+   * 4. 渲染图谱
+   * ================================================== */
+  function renderGraph() {
+    const container = document.getElementById('graph-canvas');
+    if (!chartInstance) chartInstance = echarts.init(container);
+
+    const { nodes, links, collabCount } = buildGraphData();
+
+    // 更新统计
+    document.getElementById('graph-stats').textContent =
+      '当前 ' + nodes.length + ' 节点 · ' + links.length + ' 连接 · ' + collabCount + ' 条联动';
+
+    chartInstance.setOption({
+      tooltip: {
+        formatter: function (p) {
+          if (p.dataType !== 'node') return '';
+          const cat = ['厂商', '游戏', '文化主题'][p.data.category];
+          let extra = '';
+          if (p.data._type === 'company') extra = '<br>当前筛选下联动数：' + p.data.value;
+          if (p.data._type === 'theme')   extra = '<br>当前筛选下被联动游戏数：' + p.data.value;
+          return '<b>' + p.data.name + '</b><br>类型：' + cat + extra;
+        }
+      },
+      legend: [{
+        data: ['厂商', '游戏', '文化主题'],
+        top: 8,
+        right: 16,
+        textStyle: { fontSize: 11 }
+      }],
+      series: [{
+        type: 'graph',
+        layout: 'force',
+        data: nodes,
+        links: links,
+        categories: [
+          { name: '厂商',     itemStyle: { color: '#3a5a98' } },
+          { name: '游戏',     itemStyle: { color: '#888' } },
+          { name: '文化主题', itemStyle: { color: '#c44' } }
+        ],
+        roam: true,
+        draggable: true,
+        label: {
+          show: true,
+          position: 'right',
+          fontSize: 10,
+          formatter: '{b}'
+        },
+        labelLayout: { hideOverlap: true },
+        force: {
+          repulsion: 200,
+          edgeLength: [40, 90],
+          gravity: 0.12
+        },
+        lineStyle: { color: '#bbb', width: 0.8, opacity: 0.5, curveness: 0.1 },
+        emphasis: {
+          // ECharts 内置的"高亮其相关节点和边"逻辑
+          focus: 'adjacency',
+          lineStyle: { width: 2.5, opacity: 1 },
+          itemStyle: { borderColor: '#222', borderWidth: 2 },
+          label: { fontWeight: 'bold' }
+        }
+      }]
+    }, true); // 第二个参数 true = 不合并 option，完全替换（关键：筛选后重渲）
+  }
+
+  /* ==================================================
+   * 5. 监听筛选器变化 - 重新渲染
+   * ================================================== */
+  document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      if (panel.classList.contains('expanded')) {
+        renderGraph();
+      }
+    });
+  });
+
+  /* ==================================================
+   * 初始化 + 窗口缩放
+   * ================================================== */
+  // 等容器有尺寸再初始化
+  setTimeout(renderGraph, 50);
+  window.addEventListener('resize', () => {
+    if (chartInstance) chartInstance.resize();
+  });
+})();
+</script>
+
+</body>
+</html>

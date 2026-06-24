@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Game MUSE · 配色参考 Demo</title>
+  <style>
+    /* ================================================================
+       Game MUSE 妙思网站 · 配色参考 Demo
+       ----------------------------------------------------------------
+       使用方式：
+       1. 想新增一套配色方案？只需在页面最底部 <script> 中的 PALETTES
+          数组里 push 一个新对象即可，结构会自动渲染出来。
+       2. 每个配色模块使用局部 CSS 变量（写在 .palette-block 的 style 里），
+          因此互不影响，方便横向对比。
+       ================================================================ */
+
+    /* ---------- 全局基底（中性灰，不参与方案对比） ---------- */
+    :root {
+      --page-bg: #F5F5F7;
+      --page-text: #1d1d1f;
+      --page-muted: #6e6e73;
+      --page-border: #e5e5ea;
+      --page-card: #ffffff;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.06);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--page-bg);
+      color: var(--page-text);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",
+                   "Helvetica Neue", "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---------- 页面骨架 ---------- */
+    .page-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .page-head {
+      margin-bottom: 32px;
+    }
+    .page-head h1 {
+      font-size: 28px;
+      margin: 0 0 8px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .page-head p {
+      margin: 0;
+      color: var(--page-muted);
+      font-size: 14px;
+    }
+    .page-head .how-to-add {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 8px 12px;
+      background: #fff;
+      border: 1px dashed var(--page-border);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--page-muted);
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    /* ---------- 配色模块容器 ---------- */
+    #palettes-root {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .palette-block {
+      background: var(--page-card);
+      border: 1px solid var(--page-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* 模块标题区 */
+    .pb-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--page-border);
+    }
+    .pb-head .pb-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+    }
+    .pb-head .pb-id {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 12px;
+      color: var(--page-muted);
+      margin-right: 8px;
+    }
+    .pb-head .pb-desc {
+      font-size: 13px;
+      color: var(--page-muted);
+      max-width: 520px;
+      text-align: right;
+    }
+
+    /* 模块主体：左侧色板 + 右侧 UI 样品 */
+    .pb-body {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 880px) {
+      .pb-body { grid-template-columns: 1fr; }
+    }
+
+    /* ---------- 色板（左） ---------- */
+    .swatches {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .swatch {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px;
+      border: 1px solid var(--page-border);
+      border-radius: var(--radius-sm);
+      background: #fff;
+    }
+    .swatch__chip {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      border: 1px solid rgba(0,0,0,.08);
+      flex-shrink: 0;
+      /* 用棋盘格底，方便看出透明色 */
+      background-image:
+        linear-gradient(45deg, #eee 25%, transparent 25%),
+        linear-gradient(-45deg, #eee 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #eee 75%),
+        linear-gradient(-45deg, transparent 75%, #eee 75%);
+      background-size: 12px 12px;
+      background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .swatch__chip::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--chip-color, #fff);
+    }
+    .swatch__meta {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      flex: 1;
+    }
+    .swatch__name {
+      font-size: 12px;
+      color: var(--page-text);
+      font-weight: 500;
+    }
+    .swatch__value {
+      font-size: 11px;
+      color: var(--page-muted);
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      word-break: break-all;
+    }
+
+    /* ---------- UI 样品区（右） ---------- */
+    .samples {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* 通用：所有样品都坐落在「方案的页面背景」上，方便看真实观感 */
+    .sample-stage {
+      background: var(--bg, #fff);
+      border: 1px solid var(--border, #ebebeb);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+    .sample-stage + .sample-stage { margin-top: 0; }
+
+    /* —— mini Header —— */
+    .s-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .s-logo {
+      font-weight: 800;
+      font-size: 15px;
+      color: var(--text, #222);
+      letter-spacing: 0.5px;
+    }
+    .s-logo .dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      /* brand 色优先用于品牌触点，未定义则回落到 accent */
+      background: var(--brand, var(--accent, #FF385C));
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .s-nav {
+      display: flex;
+      gap: 18px;
+      font-size: 13px;
+    }
+    .s-nav a {
+      color: var(--text-light, #6A6A6A);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 4px;
+    }
+    .s-nav a.active {
+      color: var(--text, #222);
+      font-weight: 600;
+    }
+    .s-nav a.active::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: -2px;
+      height: 2px;
+      background: var(--brand, var(--accent, #FF385C));
+      border-radius: 2px;
+    }
+    .s-user {
+      font-size: 13px;
+      color: var(--text-light, #6A6A6A);
+    }
+
+    /* —— 搜索栏 + 热搜 tag —— */
+    .s-search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .s-search__input {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border: 1px solid var(--border, #D9D9D9);
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 13px;
+      color: var(--text-muted, #929292);
+    }
+    .s-search__btn {
+      background: var(--accent, #FF385C);
+      color: var(--text-on-accent, #fff);
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .s-search__btn:hover {
+      background: var(--accent-hover, #E00B41);
+    }
+    .s-hot {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--text-light, #6A6A6A);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+    .s-tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--accent-light, rgba(255, 56, 92, 0.12));
+      color: var(--accent-hover, #E00B41);
+      font-size: 11px;
+      border: 1px solid transparent;
+    }
+
+    /* —— KPI 卡 + 案例 mini 卡 + 关注卡（三栏） —— */
+    .s-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 720px) {
+      .s-grid { grid-template-columns: 1fr; }
+    }
+
+    .s-kpi {
+      background: var(--bg-card, #FEFAFB);
+      border: 1px solid var(--border-soft, #F9EEF0);
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+    .s-kpi__label {
+      font-size: 12px;
+      color: var(--text-light, #6A6A6A);
+      margin-bottom: 6px;
+    }
+    .s-kpi__value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent, #FF385C);
+      line-height: 1.1;
+    }
+    .s-kpi__trend {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--text-muted, #929292);
+    }
+
+    .s-case {
+      background: var(--bg-card, #FEFAFB);
+      border: 1px solid var(--border-soft, #F9EEF0);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .s-case__cover {
+      width: 56px; height: 56px;
+      border-radius: 8px;
+      background: repeating-linear-gradient(
+        45deg,
+        var(--accent-light, rgba(255,56,92,.12)),
+        var(--accent-light, rgba(255,56,92,.12)) 6px,
+        var(--bg-card, #FEFAFB) 6px,
+        var(--bg-card, #FEFAFB) 12px
+      );
+      border: 1px solid var(--border-soft, #F9EEF0);
+      flex-shrink: 0;
+    }
+    .s-case__info { min-width: 0; flex: 1; }
+    .s-case__title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text, #222);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .s-case__meta {
+      font-size: 11px;
+      color: var(--text-muted, #929292);
+      margin-top: 2px;
+    }
+    .s-case__badge {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--accent, #FF385C);
+      color: var(--text-on-accent, #fff);
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .s-follow {
+      background: var(--bg-card, #FEFAFB);
+      border: 1px solid var(--border-soft, #F9EEF0);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .s-follow__dot {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--accent, #FF385C);
+      color: var(--text-on-accent, #fff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .s-follow__info { min-width: 0; }
+    .s-follow__name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text, #222);
+    }
+    .s-follow__update {
+      font-size: 11px;
+      color: var(--accent-hover, #E00B41);
+      margin-top: 2px;
+    }
+
+    /* 文字色样品（一行展示三档文字 + 文字 on accent） */
+    .s-text-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      font-size: 13px;
+    }
+    .s-text-row .t1 { color: var(--text, #222); font-weight: 600; }
+    .s-text-row .t2 { color: var(--text-light, #6A6A6A); }
+    .s-text-row .t3 { color: var(--text-muted, #929292); }
+    .s-text-row .t-on {
+      background: var(--accent, #FF385C);
+      color: var(--text-on-accent, #fff);
+      padding: 2px 10px;
+      border-radius: 4px;
+    }
+
+    /* 模块小节标题 */
+    .samples h4 {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--page-muted);
+      margin: 4px 0 -6px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- ============ 页面顶部说明 ============ -->
+  <header class="page-head">
+    <h1>Game MUSE 妙思 · 配色参考 Demo</h1>
+    <p>用于决定网站主题配色。每个模块是一套候选配色方案，包含色板和真实 UI 样品（Header / 搜索 / KPI / 案例卡 / 关注卡），可横向对比观感。</p>
+    <div class="how-to-add">// 新增配色方案：在文件末尾 PALETTES 数组里 push 一项即可</div>
+  </header>
+
+  <!-- ============ 配色模块挂载点 ============ -->
+  <main id="palettes-root"></main>
+
+</div>
+
+<!-- ================================================================
+     配色数据 & 渲染逻辑
+     新增方案：复制 PALETTES[0] 整块，改值后追加到数组末尾即可。
+     每个 token 都会作为 CSS 变量挂在 .palette-block 上，
+     页面上所有样品组件会自动应用。
+     ================================================================ -->
+<script>
+  const PALETTES = [
+    {
+      id: '01',
+      name: 'home.html 现有配色（玫红基准）',
+      desc: '当前 wireframes/home.html 在用的配色，作为后续粉色方案对比的基准。',
+      tokens: {
+        '--bg':            '#FFFFFF',
+        '--bg-card':       '#FEFAFB',
+        '--bg-hover':      '#F7F7F7',
+        '--bg-divider':    '#EBEBEB',
+        '--text':          '#222222',
+        '--text-light':    '#6A6A6A',
+        '--text-muted':    '#929292',
+        '--text-on-accent':'#FFFFFF',
+        '--accent':        '#FF385C',
+        '--accent-hover':  '#E00B41',
+        '--accent-light':  'rgba(255, 56, 92, 0.12)',
+        '--border':        '#EBEBEB',
+        '--border-soft':   '#F9EEF0'
+      }
+    }
+    ,{
+      id: '02',
+      name: '深紫鎏金（Royal Plum × Antique Gold）',
+      desc: '深紫定调（品牌色） + 古铜金做强调高光，白底承托。气质偏文化典藏 / 高端博物馆风，与"妙思"主题契合。',
+      tokens: {
+        '--bg':            '#FFFFFF',
+        '--bg-card':       '#FAF8FD',
+        '--bg-hover':      '#F3EFF9',
+        '--bg-divider':    '#E6E1F0',
+        '--text':          '#1A1A2A',
+        '--text-light':    '#5B5673',
+        '--text-muted':    '#8C8799',
+        '--text-on-accent':'#1A1A2A',
+        '--brand':         '#2D1B69',
+        '--accent':        '#C9A84C',
+        '--accent-hover':  '#A8893B',
+        '--accent-light':  'rgba(201, 168, 76, 0.16)',
+        '--border':        '#E6E1F0',
+        '--border-soft':   '#EDE7F7'
+      }
+    }
+    ,{
+      id: '03',
+      name: 'The Met 大都会博物馆（标志红 × 暖米）',
+      desc: '灵感来自 The Met 2016 年由 Wolff Olins 操刀的品牌重塑。标志性红 #E4002B 作为强调，搭配暖米底，呈现"当代博物馆"的鲜明气质。',
+      tokens: {
+        '--bg':            '#FBF7F0',
+        '--bg-card':       '#FFFFFF',
+        '--bg-hover':      '#F3EDE2',
+        '--bg-divider':    '#E8DFCF',
+        '--text':          '#1F1A14',
+        '--text-light':    '#5C5448',
+        '--text-muted':    '#8F8676',
+        '--text-on-accent':'#FFFFFF',
+        '--brand':         '#E4002B',
+        '--accent':        '#E4002B',
+        '--accent-hover':  '#B30022',
+        '--accent-light':  'rgba(228, 0, 43, 0.10)',
+        '--border':        '#E8DFCF',
+        '--border-soft':   '#F0E8D7'
+      }
+    }
+    ,{
+      id: '04',
+      name: 'MoMA 现代艺术（极简黑白 × 信号红）',
+      desc: '灵感来自 MoMA 一以贯之的黑白极简体系。整体由 95% 的黑/白/灰构成，仅留一抹信号红做强调，最当代、最克制。',
+      tokens: {
+        '--bg':            '#FFFFFF',
+        '--bg-card':       '#FAFAFA',
+        '--bg-hover':      '#F0F0F0',
+        '--bg-divider':    '#E5E5E5',
+        '--text':          '#000000',
+        '--text-light':    '#525252',
+        '--text-muted':    '#8E8E8E',
+        '--text-on-accent':'#FFFFFF',
+        '--brand':         '#000000',
+        '--accent':        '#FF2D2D',
+        '--accent-hover':  '#D11515',
+        '--accent-light':  'rgba(255, 45, 45, 0.10)',
+        '--border':        '#E5E5E5',
+        '--border-soft':   '#EFEFEF'
+      }
+    }
+    ,{
+      id: '05',
+      name: '英伦学院（深石板蓝 × 古铜红 × 砂米）',
+      desc: '灵感来自大英博物馆 / V&A 的学院典雅气质。冷调深蓝灰定基调，古铜红做强调，砂米色卡片承托，沉稳耐看。',
+      tokens: {
+        '--bg':            '#F7F4EE',
+        '--bg-card':       '#FFFFFF',
+        '--bg-hover':      '#EFEBE3',
+        '--bg-divider':    '#DCD5C8',
+        '--text':          '#1F2A3A',
+        '--text-light':    '#4A5568',
+        '--text-muted':    '#7B8493',
+        '--text-on-accent':'#FFFFFF',
+        '--brand':         '#2A3C5A',
+        '--accent':        '#B0413E',
+        '--accent-hover':  '#8C2F2C',
+        '--accent-light':  'rgba(176, 65, 62, 0.12)',
+        '--border':        '#DCD5C8',
+        '--border-soft':   '#E8E1D2'
+      }
+    }
+    ,{
+      id: '06',
+      name: '故宫朱印（朱红宫墙 × 琉璃黄 × 宣纸米）',
+      desc: '灵感来自故宫博物院的东方典藏配色：朱红宫墙做品牌主色，琉璃瓦黄作强调高光，宣纸米色承底，与 Game MUSE 文化联动主题极契合。',
+      tokens: {
+        '--bg':            '#FAF6EC',
+        '--bg-card':       '#FFFCF5',
+        '--bg-hover':      '#F2EBDB',
+        '--bg-divider':    '#E5DBC4',
+        '--text':          '#1F1611',
+        '--text-light':    '#5C4A3C',
+        '--text-muted':    '#8C7C6A',
+        '--text-on-accent':'#FFFFFF',
+        '--brand':         '#A52A2A',
+        '--accent':        '#D4A017',
+        '--accent-hover':  '#A87E10',
+        '--accent-light':  'rgba(212, 160, 23, 0.16)',
+        '--border':        '#E5DBC4',
+        '--border-soft':   '#EFE6D2'
+      }
+    }
+    ,{
+      id: '07',
+      name: 'IBM Carbon（经典科技蓝）',
+      desc: '灵感来自 IBM Carbon Design System。深沉的 IBM Blue #0F62FE 作为强调，冷白底 + 中性灰阶，呈现"专业工具"的严肃气质。',
+      tokens: {
+        '--bg':            '#FFFFFF',
+        '--bg-card':       '#F4F4F4',
+        '--bg-hover':      '#E8E8E8',
+        '--bg-divider':    '#DDE1E6',
+        '--text':          '#161616',
+        '--text-light':    '#525252',
+        '--text-muted':    '#8D8D8D',
+        '--text-on-accent':'#FFFFFF',
+        '--brand':         '#0F62FE',
+        '--accent':        '#0F62FE',
+        '--accent-hover':  '#0043CE',
+        '--accent-light':  'rgba(15, 98, 254, 0.10)',
+        '--border':        '#DDE1E6',
+        '--border-soft':   '#E8ECF0'
+      }
+    }
+    ,{
+      id: '08',
+      name: 'Stripe / Linear（深靛紫蓝）',
+      desc: '灵感来自 Stripe 与 Linear 这一代 SaaS 品牌共识的"深靛紫蓝"。气质偏深邃克制、现代高级，是当下科技产品的"安全感"配色。',
+      tokens: {
+        '--bg':            '#FFFFFF',
+        '--bg-card':       '#F6F9FC',
+        '--bg-hover':      '#EEF2F8',
+        '--bg-divider':    '#E3E8EF',
+        '--text':          '#0A2540',
+        '--text-light':    '#425466',
+        '--text-muted':    '#697386',
+        '--text-on-accent':'#FFFFFF',
+        '--brand':         '#635BFF',
+        '--accent':        '#635BFF',
+        '--accent-hover':  '#4A42E0',
+        '--accent-light':  'rgba(99, 91, 255, 0.10)',
+        '--border':        '#E3E8EF',
+        '--border-soft':   '#EBF0F6'
+      }
+    }
+    ,{
+      id: '09',
+      name: '青绿山水（蒂芙尼青 × 松石 × 宣纸米）',
+      desc: '灵感来自《千里江山图》青绿山水与蒂芙尼标志青。冷调青绿 #0F766E 作为品牌色，淡松石青 #2DD4BF 作高光强调，与 Game MUSE 文化主题契合。',
+      tokens: {
+        '--bg':            '#F8FAF9',
+        '--bg-card':       '#FFFFFF',
+        '--bg-hover':      '#EBF2F0',
+        '--bg-divider':    '#D5E2DE',
+        '--text':          '#0E1F1B',
+        '--text-light':    '#3F5B55',
+        '--text-muted':    '#7A8F89',
+        '--text-on-accent':'#FFFFFF',
+        '--brand':         '#0F766E',
+        '--accent':        '#0F766E',
+        '--accent-hover':  '#0B5C56',
+        '--accent-light':  'rgba(15, 118, 110, 0.12)',
+        '--border':        '#D5E2DE',
+        '--border-soft':   '#E1ECE8'
+      }
+    }
+    ,{
+      id: '10',
+      name: 'Notion / Vercel（冷灰石板 × 天蓝点缀）',
+      desc: '灵感来自 Notion 与 Vercel 的冷灰阶系统。深石板黑 #0F172A 做品牌色，通透天蓝 #0EA5E9 做强调点缀。冷静、克制、不抢内容。',
+      tokens: {
+        '--bg':            '#FFFFFF',
+        '--bg-card':       '#F8FAFC',
+        '--bg-hover':      '#F1F5F9',
+        '--bg-divider':    '#E2E8F0',
+        '--text':          '#0F172A',
+        '--text-light':    '#475569',
+        '--text-muted':    '#94A3B8',
+        '--text-on-accent':'#FFFFFF',
+        '--brand':         '#0F172A',
+        '--accent':        '#0EA5E9',
+        '--accent-hover':  '#0284C7',
+        '--accent-light':  'rgba(14, 165, 233, 0.12)',
+        '--border':        '#E2E8F0',
+        '--border-soft':   '#EDF2F7'
+      }
+    }
+    // ⬇⬇⬇ 后续新增的配色方案追加在这里 ⬇⬇⬇
+    // ,{
+    //   id: '02',
+    //   name: '示例：樱花粉方案',
+    //   desc: '说明这套方案的设计意图……',
+    //   tokens: { ...同上结构... }
+    // }
+  ];
+
+  /* ---------- 渲染函数 ---------- */
+  function renderPalette(p) {
+    const block = document.createElement('section');
+    block.className = 'palette-block';
+
+    // 把 tokens 作为 CSS 变量挂到模块根元素
+    const styleStr = Object.entries(p.tokens)
+      .map(([k, v]) => `${k}: ${v};`)
+      .join(' ');
+    block.setAttribute('style', styleStr);
+
+    block.innerHTML = `
+      <div class="pb-head">
+        <h2 class="pb-title">
+          <span class="pb-id">#${p.id}</span>${p.name}
+        </h2>
+        <div class="pb-desc">${p.desc || ''}</div>
+      </div>
+
+      <div class="pb-body">
+        <!-- 左：色板 -->
+        <div class="swatches">
+          ${Object.entries(p.tokens).map(([k, v]) => `
+            <div class="swatch">
+              <div class="swatch__chip" style="--chip-color: ${v};"></div>
+              <div class="swatch__meta">
+                <div class="swatch__name">${k}</div>
+                <div class="swatch__value">${v}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- 右：UI 样品 -->
+        <div class="samples">
+
+          <h4>Header · 导航</h4>
+          <div class="sample-stage">
+            <div class="s-header">
+              <div class="s-logo"><span class="dot"></span>Game MUSE 妙思</div>
+              <nav class="s-nav">
+                <a href="#" class="active">首页</a>
+                <a href="#">联动案例</a>
+                <a href="#">主题图谱</a>
+              </nav>
+              <div class="s-user">👤 我的</div>
+            </div>
+          </div>
+
+          <h4>搜索区 · 主按钮 · 热搜 tag</h4>
+          <div class="sample-stage">
+            <div class="s-search">
+              <div class="s-search__input">搜索联动案例 / 游戏 / IP / 文化主题…</div>
+              <button class="s-search__btn">搜索</button>
+            </div>
+            <div class="s-hot">
+              🔥 热搜：
+              <span class="s-tag">原神</span>
+              <span class="s-tag">鸣潮</span>
+              <span class="s-tag">明日方舟</span>
+              <span class="s-tag">恋与深空</span>
+            </div>
+          </div>
+
+          <h4>KPI · 案例卡 · 关注卡</h4>
+          <div class="sample-stage">
+            <div class="s-grid">
+
+              <div class="s-kpi">
+                <div class="s-kpi__label">2026 年新增联动</div>
+                <div class="s-kpi__value">128</div>
+                <div class="s-kpi__trend">↗ 本年累计</div>
+              </div>
+
+              <div class="s-case">
+                <div class="s-case__cover"></div>
+                <div class="s-case__info">
+                  <div class="s-case__title">鸣潮 × 三星堆</div>
+                  <div class="s-case__meta">库洛 · 2026-06-10</div>
+                  <span class="s-case__badge">S级</span>
+                </div>
+              </div>
+
+              <div class="s-follow">
+                <div class="s-follow__dot">原</div>
+                <div class="s-follow__info">
+                  <div class="s-follow__name">原神</div>
+                  <div class="s-follow__update">🆕 新联动 · 5 天前</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <h4>文字层级</h4>
+          <div class="sample-stage">
+            <div class="s-text-row">
+              <span class="t1">主文字 Text</span>
+              <span class="t2">次级文字 Light</span>
+              <span class="t3">辅助文字 Muted</span>
+              <span class="t-on">强调底上的文字</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    `;
+
+    return block;
+  }
+
+  /* ---------- 挂载 ---------- */
+  const root = document.getElementById('palettes-root');
+  PALETTES.forEach(p => root.appendChild(renderPalette(p)));
+</script>
+
+</body>
+</html>

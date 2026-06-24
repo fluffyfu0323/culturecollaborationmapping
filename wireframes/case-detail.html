@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>案例详情页 · 游戏文化联动情报库（线框图）</title>
+  <link rel="stylesheet" href="wireframe.css">
+  <link rel="stylesheet" href="case-detail.css">
+</head>
+<body>
+
+<!-- ============================================
+     SVG 图标库（symbol 复用）
+     ============================================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- 章节导航：列表 -->
+    <symbol id="i-list" viewBox="0 0 24 24">
+      <path d="M8 6h13M8 12h13M8 18h13"/>
+      <circle cx="4" cy="6"  r="1.2" fill="currentColor" stroke="none"/>
+      <circle cx="4" cy="12" r="1.2" fill="currentColor" stroke="none"/>
+      <circle cx="4" cy="18" r="1.2" fill="currentColor" stroke="none"/>
+    </symbol>
+    <!-- 相似案例：放大镜 + 卡片感 -->
+    <symbol id="i-similar" viewBox="0 0 24 24">
+      <circle cx="10" cy="10" r="6"/>
+      <path d="M19 19l-4.5-4.5"/>
+    </symbol>
+    <!-- 同厂商：建筑 -->
+    <symbol id="i-building" viewBox="0 0 24 24">
+      <rect x="4" y="4" width="16" height="17" rx="1.5"/>
+      <path d="M9 8h.01M14 8h.01M9 12h.01M14 12h.01M9 16h.01M14 16h.01"/>
+    </symbol>
+    <!-- 同主题：博物馆/柱 -->
+    <symbol id="i-museum" viewBox="0 0 24 24">
+      <path d="M3 9l9-5 9 5M4 9v10M20 9v10M8 11v7M12 11v7M16 11v7M3 21h18"/>
+    </symbol>
+    <!-- 数据可信度：盾牌 -->
+    <symbol id="i-shield" viewBox="0 0 24 24">
+      <path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/>
+    </symbol>
+    <!-- 浏览其他案例：图册 -->
+    <symbol id="i-album" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="18" height="18" rx="2"/>
+      <path d="M3 15l5-5 6 6M14 12l3-3 4 4"/>
+      <circle cx="9" cy="8" r="1.5"/>
+    </symbol>
+    <!-- 编辑结论：引语 -->
+    <symbol id="i-quote" viewBox="0 0 24 24">
+      <path d="M7 7c-2 1-3 3-3 6v4h5v-5H6c0-2 1-3 3-4l-2-1zM17 7c-2 1-3 3-3 6v4h5v-5h-3c0-2 1-3 3-4l-2-1z"/>
+    </symbol>
+    <!-- meta 行：标签 -->
+    <symbol id="i-tag" viewBox="0 0 24 24">
+      <path d="M3 12V4h8l10 10-8 8L3 12z"/>
+      <circle cx="7.5" cy="7.5" r="1.2" fill="currentColor" stroke="none"/>
+    </symbol>
+    <!-- 推荐阅读：星标 -->
+    <symbol id="i-pin" viewBox="0 0 24 24">
+      <path d="M12 17v5M8 4h8l-1 6c2 1 3 2.5 3 4H6c0-1.5 1-3 3-4L8 4z"/>
+    </symbol>
+    <!-- 翻页箭头 -->
+    <symbol id="i-arrow-left" viewBox="0 0 24 24">
+      <path d="M15 5l-7 7 7 7M8 12h13"/>
+    </symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24">
+      <path d="M9 5l7 7-7 7M3 12h13"/>
+    </symbol>
+    <symbol id="i-arrow-down" viewBox="0 0 24 24">
+      <path d="M6 9l6 6 6-6"/>
+    </symbol>
+    <!-- 按钮图标：收藏星 -->
+    <symbol id="i-star" viewBox="0 0 24 24">
+      <path d="M12 3l2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.8 1-6.1L3.2 9.4l6.1-.9L12 3z"/>
+    </symbol>
+    <!-- 加入对比 + -->
+    <symbol id="i-plus" viewBox="0 0 24 24">
+      <path d="M12 5v14M5 12h14"/>
+    </symbol>
+    <!-- 对比模式 天平 -->
+    <symbol id="i-scale" viewBox="0 0 24 24">
+      <path d="M12 4v17M3 21h18M6 8l-3 6h6l-3-6zM18 8l-3 6h6l-3-6zM5 4h14"/>
+    </symbol>
+    <!-- 导出 PDF -->
+    <symbol id="i-download" viewBox="0 0 24 24">
+      <path d="M12 4v12M7 11l5 5 5-5M5 20h14"/>
+    </symbol>
+    <!-- 分享 -->
+    <symbol id="i-share" viewBox="0 0 24 24">
+      <circle cx="6" cy="12" r="2.5"/>
+      <circle cx="18" cy="6" r="2.5"/>
+      <circle cx="18" cy="18" r="2.5"/>
+      <path d="M8.5 11l7-4M8.5 13l7 4"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="page">
+
+  <!-- Header（与 home / cases 完全一致） -->
+  <header class="header">
+    <div class="logo">
+      <img src="logo-gamemuse.png" alt="Game MUSE · 游戏文化联动情报库" />
+    </div>
+    <nav class="nav">
+      <a href="home.html">首页</a>
+      <a href="cases.html" class="active">联动案例</a>
+    </nav>
+    <div class="user">👤 我的</div>
+  </header>
+
+  <!-- 面包屑 -->
+  <div class="breadcrumb">
+    <span>首页</span>
+    <span class="breadcrumb-sep">/</span>
+    <span>联动案例</span>
+    <span class="breadcrumb-sep">/</span>
+    <b>鸣潮 × 三星堆 古蜀文明特别版</b>
+  </div>
+
+  <div class="detail-body">
+
+    <!-- 顶部摘要卡（跨左侧栏 + 中间列两列宽度） -->
+    <section class="detail-hero">
+      <div class="hero-cover">[ 封面主视觉 16:9 ]</div>
+      <div class="hero-info">
+        <div class="meta">
+          <svg class="icon icon--muted" aria-hidden="true"><use href="#i-tag"/></svg>
+          厂商：库洛游戏　·　游戏：鸣潮　·　IP：三星堆博物馆
+        </div>
+        <h1>鸣潮 2.0 × 三星堆 古蜀文明特别版</h1>
+        <div class="sub">上线时间：2026-06-10　·　时长：28 天　·　联动类型：资料片级深度共创</div>
+
+        <div class="conclusion">
+          <div class="label">
+            <svg class="icon" aria-hidden="true" style="color:var(--accent-hover);"><use href="#i-quote"/></svg>
+            编辑结论
+          </div>
+          近一年最成功的非遗深度共创：商业化与口碑双优，可作为二游品类博物馆联动的标杆案例。
+        </div>
+
+        <div class="kpi-cards">
+          <div class="kpi"><div class="label">流水估算</div><div class="value">≈ 3.2 亿</div><div class="info">ⓘ 估算 · 中可信</div></div>
+          <div class="kpi"><div class="label">舆情评分</div><div class="value">89</div><div class="info">ⓘ 样本 12,847</div></div>
+          <div class="kpi"><div class="label">ROI 评级</div><div class="value">S 级</div><div class="info">ⓘ 评级标准</div></div>
+          <div class="kpi"><div class="label">用户反馈</div><div class="value">↗ 高</div><div class="info">ⓘ 正向 72%</div></div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary">
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg> 收藏
+          </button>
+          <button class="btn">
+            <svg class="icon" aria-hidden="true"><use href="#i-share"/></svg> 分享
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 左侧栏：锚点导航 + 关联信息 -->
+    <aside class="left-side">
+      <nav class="anchor-nav">
+        <div class="label">
+          <svg class="icon" aria-hidden="true"><use href="#i-list"/></svg>
+          章节导航
+        </div>
+        <a href="#overview" class="active">概览</a>
+        <a href="#commercial">商业化表现</a>
+        <a href="#sentiment">舆情与用户反馈</a>
+        <a href="#content">联动内容</a>
+        <a href="#culture">文化考据</a>
+        <a href="#sources">数据来源</a>
+      </nav>
+
+      <div class="side-card">
+        <h4>
+          <svg class="icon" aria-hidden="true"><use href="#i-building"/></svg>
+          同厂商 · 库洛
+        </h4>
+        <ul class="side-list">
+          <li>鸣潮 × 京剧</li>
+          <li>鸣潮 × 茶文化</li>
+          <li>战双 × 国风</li>
+        </ul>
+      </div>
+
+      <div class="side-card">
+        <h4>
+          <svg class="icon" aria-hidden="true"><use href="#i-museum"/></svg>
+          同主题 · 三星堆
+        </h4>
+        <ul class="side-list">
+          <li>王者 × 三星堆</li>
+          <li>蛋仔 × 三星堆</li>
+          <li>逆水寒 × 三星堆</li>
+        </ul>
+      </div>
+
+      <div class="side-card">
+        <h4>
+          <svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg>
+          数据可信度
+        </h4>
+        <div class="trust-row"><span>流水估算</span><span class="lvl-m">中</span></div>
+        <div class="trust-row"><span>舆情数据</span><span class="lvl-h">高</span></div>
+        <div class="trust-row"><span>ROI 评级</span><span class="lvl-m">中</span></div>
+        <div class="trust-row"><span>文化考据</span><span class="lvl-h">高</span></div>
+      </div>
+    </aside>
+
+    <!-- 主内容 -->
+    <main class="detail-main">
+
+      <section id="overview">
+        <h2>概览</h2>
+        <ul>
+          <li><b>联动类型：</b>资料片级深度共创（非皮肤层级合作）</li>
+          <li><b>玩法形式：</b>主线剧情扩展 + 限定皮肤 + 集卡活动 + 实景探索 H5</li>
+          <li><b>文化主题：</b>三星堆 / 古蜀文明 / 青铜文化</li>
+          <li><b>合作方：</b>三星堆博物馆 / 四川省文物局</li>
+          <li><b>授权类型：</b>官方深度合作（含纹样授权 + 学术顾问）</li>
+          <li><b>项目周期：</b>从立项到上线约 14 个月</li>
+        </ul>
+      </section>
+
+      <section id="commercial">
+        <h2>商业化表现</h2>
+
+        <h3>流水估算 + 同品类基准对比</h3>
+        <div class="wf-placeholder" style="height:180px;">
+          [ 流水曲线图占位 ]<br>
+          本案例 ─── vs 同品类中位数 ─ ─ ─
+        </div>
+        <div class="source-note">
+          数据来源：伽马数据 / Sensor Tower 估算　·　采集时间：2026-07-08　·　置信度：中
+        </div>
+
+        <h3>ROI 评级：S 级</h3>
+        <p>评级依据：流水超出同品类中位数 2.4 倍，单用户付费高出 1.8 倍，舆情得分 Top 10%。</p>
+        <p class="wf-muted">ⓘ 悬浮查看完整评级标准说明</p>
+      </section>
+
+      <section id="sentiment">
+        <h2>舆情与用户反馈</h2>
+
+        <h3>情感分布 + 声量趋势</h3>
+        <div class="two-col">
+          <div class="ph">[ 情感饼图 ]<br>正向 72% · 中性 20% · 负向 8%</div>
+          <div class="ph">[ 声量时间趋势图 ]</div>
+        </div>
+        <div class="source-note">
+          样本量：12,847 条　·　采集：2026-06-10 ~ 07-08　·　来源：B站/微博/TapTap/小红书
+        </div>
+
+        <h3>关键词云</h3>
+        <div class="wf-placeholder" style="height:100px;">
+          [ 词云占位 ] 良心 · 用心 · 文化深度 · 美术爆炸 · 抽卡概率 · 任务太长
+        </div>
+
+        <h3>Top 5 好评 / Top 5 差评</h3>
+        <div class="kw-grid">
+          <table>
+            <thead><tr><th>✅ 好评关键词</th><th>提及量</th></tr></thead>
+            <tbody class="pos">
+              <tr><td>美术</td><td>4,231</td></tr>
+              <tr><td>剧情</td><td>3,187</td></tr>
+              <tr><td>文化深度</td><td>2,543</td></tr>
+              <tr><td>配音</td><td>1,908</td></tr>
+              <tr><td>音乐</td><td>1,672</td></tr>
+            </tbody>
+          </table>
+          <table>
+            <thead><tr><th>❌ 差评关键词</th><th>提及量</th></tr></thead>
+            <tbody class="neg">
+              <tr><td>抽卡概率</td><td>892</td></tr>
+              <tr><td>任务太长</td><td>645</td></tr>
+              <tr><td>服务器</td><td>321</td></tr>
+              <tr><td>优化</td><td>287</td></tr>
+              <tr><td>价格</td><td>243</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>代表性玩家评论</h3>
+        <div class="comment">
+          这次三星堆联动的纹样考据很到位，看得出团队真的下了功夫。
+          <div class="meta">— B 站用户 XXX · 2026-06-15 · 👍 2.3 万 · 来源链接 →</div>
+        </div>
+        <div class="comment">
+          美术满分，但抽卡概率劝退，新人感觉门槛太高。
+          <div class="meta">— TapTap 用户 YYY · 2026-06-20 · 👍 1.1 万 · 来源链接 →</div>
+        </div>
+        <div class="comment">
+          玩到主线第三章那段博物馆探索，沉浸感拉满。
+          <div class="meta">— 微博用户 ZZZ · 2026-06-18 · 转发 8,500 · 来源链接 →</div>
+        </div>
+        <div class="wf-tiny" style="text-align:center;">查看全部评论 →</div>
+      </section>
+
+      <section id="content">
+        <h2>联动内容</h2>
+
+        <h3>活动结构与时间线</h3>
+        <div class="wf-placeholder" style="height:120px;">
+          [ 活动时间线甘特图占位 ]<br>
+          Day1 → Day7 主线开放 → Day14 集卡冲刺 → Day21 限定皮肤复刻 → Day28 收尾
+        </div>
+
+        <h3>皮肤 / 道具清单</h3>
+        <div class="skin-list">
+          <div class="skin-card"><div class="ph"></div><div class="body"><b>青铜面具</b><br>168 元</div></div>
+          <div class="skin-card"><div class="ph"></div><div class="body"><b>神树主题</b><br>88 元</div></div>
+          <div class="skin-card"><div class="ph"></div><div class="body"><b>纵目通灵</b><br>免费</div></div>
+          <div class="skin-card"><div class="ph"></div><div class="body"><b>限定头像框</b><br>付费</div></div>
+        </div>
+
+        <h3>视觉资产</h3>
+        <div class="gallery">
+          <div class="ph">[截图]</div><div class="ph">[截图]</div>
+          <div class="ph">[截图]</div><div class="ph">[截图]</div>
+          <div class="ph">[截图]</div><div class="ph">[截图]</div>
+          <div class="ph">[截图]</div><div class="ph">[截图]</div>
+        </div>
+        <div class="wf-tiny" style="text-align:center;margin-top:8px;">查看全部 32 张 →</div>
+      </section>
+
+      <section id="culture">
+        <h2>文化考据</h2>
+
+        <h3>联动文化元素清单</h3>
+        <div class="culture-elem">
+          <div class="ph"></div>
+          <div><b>元素 1：青铜纵目面具</b><br>
+            <span class="wf-muted">原型：三星堆 K2 坑出土青铜纵目面具（高 31.5cm）</span>
+          </div>
+          <div class="link">资产库 →</div>
+        </div>
+        <div class="culture-elem">
+          <div class="ph"></div>
+          <div><b>元素 2：青铜神树纹</b><br>
+            <span class="wf-muted">原型：三星堆青铜神树（一号神树，国宝级）</span>
+          </div>
+          <div class="link">资产库 →</div>
+        </div>
+        <div class="culture-elem">
+          <div class="ph"></div>
+          <div><b>元素 3：太阳轮符号</b><br>
+            <span class="wf-muted">原型：三星堆青铜太阳形器</span>
+          </div>
+          <div class="link">资产库 →</div>
+        </div>
+
+        <h3>专家评价</h3>
+        <div class="comment">
+          鸣潮团队对青铜纹样的转译保持了高度的文化尊重，同时进行了符合年轻审美的二次创作，是当下文博联动的良好示范。
+          <div class="meta">— 三星堆博物馆 XX 研究员 · 2026-06-12</div>
+        </div>
+
+        <h3>合规情况</h3>
+        <ul>
+          <li>✓ 官方授权：三星堆博物馆 / 四川省文物局</li>
+          <li>✓ 文化敏感性审查：通过</li>
+          <li>✓ 学术顾问：四川大学考古文博学院 XX 教授</li>
+          <li>✓ 商用授权范围：游戏内皮肤 / 周边 / 宣发素材</li>
+        </ul>
+      </section>
+
+      <section id="sources">
+        <h2>数据来源</h2>
+        <div class="sources-list">
+          <div class="src-item">[1] 流水估算 — 伽马数据 / Sensor Tower，2026-07-08，置信度：中</div>
+          <div class="src-item">[2] 舆情数据 — 内部采集（鹰眼监测平台），样本 12,847 条</div>
+          <div class="src-item">[3] 用户评论 — B 站 / 微博 / TapTap / 小红书 综合采集</div>
+          <div class="src-item">[4] 文化考据 — 三星堆博物馆官方资料 + 四川大学考古文博学院</div>
+          <div class="src-item">[5] 皮肤定价 — 游戏内商城公开信息</div>
+          <div class="src-item">[6] 玩法结构 — 官方资料片公告 + 内部体验调研</div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 右侧：其他案例竖向预览（点击跳转） -->
+    <aside class="detail-side gallery-side">
+      <div class="gallery-label">
+        <svg class="icon" aria-hidden="true"><use href="#i-album"/></svg>
+        浏览其他案例
+      </div>
+
+      <a class="gallery-card active" href="#">
+        <div class="cover">[ 当前 ]</div>
+        <div class="title">鸣潮 × 三星堆（当前）</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">原神 × 中国茶</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">王者 × 敦煌</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">蛋仔派对 × 三星堆</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">恋与深空 × 京剧</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">明日方舟 × 昆曲</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">逆水寒 × 100+ 非遗</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">原神 × 三星堆</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">梦幻西游 × 山西文博</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">永劫无间 × 上海博物馆</div>
+      </a>
+      <a class="gallery-card" href="#">
+        <div class="cover">[ 封面 ]</div>
+        <div class="title">超自然行动组 × 敦煌艺术馆</div>
+      </a>
+
+      <div class="gallery-more">
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow-down"/></svg>
+        滚动查看更多
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- 翻页 -->
+  <div class="pager">
+    <a class="pager-btn" href="#">
+      <svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg>
+      上一个：原神 × 中国茶
+    </a>
+    <span class="center">12 / 287　·　按 ← / → 键翻页</span>
+    <a class="pager-btn" href="#">
+      下一个：恋与深空 × 京剧
+      <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+    </a>
+  </div>
+
+  <!-- 推荐阅读 -->
+  <section class="recommend-section">
+    <h2>
+      <svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>
+      看完这个案例的人还看了
+    </h2>
+    <div class="recommend-grid">
+      <div class="case-card">
+        <div class="cover">[封面]</div>
+        <div class="body"><div class="title">原神 × 中国茶</div><div class="meta">米哈游 · 5/20</div></div>
+      </div>
+      <div class="case-card">
+        <div class="cover">[封面]</div>
+        <div class="body"><div class="title">王者 × 敦煌</div><div class="meta">腾讯 · 4/15</div></div>
+      </div>
+      <div class="case-card">
+        <div class="cover">[封面]</div>
+        <div class="body"><div class="title">蛋仔 × 三星堆</div><div class="meta">网易 · 5/10</div></div>
+      </div>
+      <div class="case-card">
+        <div class="cover">[封面]</div>
+        <div class="body"><div class="title">明日方舟 × 昆曲</div><div class="meta">鹰角 · 5/25</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    关于我们 · 数据来源说明 · 反馈与建议<br>
+    <span class="wf-tiny">© 2026 游戏文化联动情报库 · 内部产品线框图</span>
+  </footer>
+
+</div>
+
+<!-- ============================================
+     锚点导航高亮联动（IntersectionObserver）
+     ============================================ -->
+<script>
+(function () {
+  const navLinks = document.querySelectorAll('.anchor-nav a[href^="#"]');
+  if (!navLinks.length) return;
+
+  // id → <a> 映射
+  const linkMap = new Map();
+  const sections = [];
+  navLinks.forEach(a => {
+    const id = a.getAttribute('href').slice(1);
+    const sec = document.getElementById(id);
+    if (sec) {
+      linkMap.set(id, a);
+      sections.push(sec);
+    }
+  });
+
+  function setActive(id) {
+    navLinks.forEach(a => a.classList.remove('active'));
+    const target = linkMap.get(id);
+    if (target) target.classList.add('active');
+  }
+
+  /* ---------- 1. 滚动监听：当前可视区域内最靠上的 section 高亮 ---------- */
+  // 顶部偏移：sticky header(~64) + breadcrumb(~48) ≈ 120px
+  const TOP_OFFSET = 120;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      // 取所有"top 边界已经越过 TOP_OFFSET"的 section，选最后一个（最靠近顶部偏移线的）
+      const visible = sections
+        .map(sec => ({
+          id: sec.id,
+          top: sec.getBoundingClientRect().top
+        }))
+        .filter(s => s.top - TOP_OFFSET <= 1)
+        .sort((a, b) => b.top - a.top);    // 倒序：top 越大（越靠近偏移线）越优先
+
+      if (visible.length) {
+        setActive(visible[0].id);
+      } else {
+        // 全部 section 都还在偏移线下方 → 高亮第一个
+        setActive(sections[0].id);
+      }
+    },
+    {
+      // 顶部 -120px 触发线（即偏移线），底部 -50% 减少抖动
+      rootMargin: `-${TOP_OFFSET}px 0px -50% 0px`,
+      threshold: 0
+    }
+  );
+  sections.forEach(sec => observer.observe(sec));
+
+  /* ---------- 2. 点击锚点：平滑滚动 + 偏移 + 立即高亮 ---------- */
+  navLinks.forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href').slice(1);
+      const sec = document.getElementById(id);
+      if (!sec) return;
+      e.preventDefault();
+      const top = sec.getBoundingClientRect().top + window.scrollY - TOP_OFFSET + 1;
+      window.scrollTo({ top, behavior: 'smooth' });
+      setActive(id);
+      // 同步更新地址栏 hash（不触发跳转）
+      history.replaceState(null, '', '#' + id);
+    });
+  });
+
+  /* ---------- 3. 兜底：滚动事件二次校正（IntersectionObserver 在快速滚动时偶尔漏触发） ---------- */
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const candidates = sections
+        .map(sec => ({ id: sec.id, top: sec.getBoundingClientRect().top }))
+        .filter(s => s.top - TOP_OFFSET <= 1)
+        .sort((a, b) => b.top - a.top);
+      if (candidates.length) {
+        setActive(candidates[0].id);
+      } else {
+        setActive(sections[0].id);
+      }
+      ticking = false;
+    });
+  }, { passive: true });
+})();
+</script>
+
+</body>
+</html>
