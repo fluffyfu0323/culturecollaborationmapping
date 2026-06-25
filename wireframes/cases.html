@@ -73,7 +73,7 @@
 
 <div class="page">
 
-  <!-- Header -->
+  <!-- Header（含搜索栏，与 home.html 一致） -->
   <header class="header">
     <div class="logo">
       <img src="logo-gamemuse.png" alt="Game MUSE · 游戏文化联动情报库" />
@@ -82,19 +82,15 @@
       <a href="home.html">首页</a>
       <a href="cases.html" class="active">联动案例</a>
     </nav>
-    <div class="user">👤 我的</div>
-  </header>
-
-  <!-- 顶部搜索栏（与 home.html 一致，含玫红按钮） -->
-  <section class="search-section">
-    <div class="search-box">
+    <div class="search-box search-box--header">
       <span class="search-box__placeholder">搜索联动案例 / 游戏 / IP / 文化主题…</span>
       <button type="button" class="search-box__btn" aria-label="搜索">
         <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
         <span>搜索</span>
       </button>
     </div>
-  </section>
+    <div class="user">👤 我的</div>
+  </header>
 
   <!-- 关系图面板（默认展开，可折叠） -->
   <section class="graph-panel expanded" id="graph-panel">
@@ -105,77 +101,231 @@
         <span class="graph-panel-sub" id="graph-stats">基于当前筛选条件动态展示</span>
       </div>
       <div class="graph-panel-actions">
-        <span class="graph-panel-tip" id="graph-tip">点击节点 → 高亮其关联</span>
+        <span class="graph-panel-tip" id="graph-tip">点击节点 → 查看详情</span>
         <button class="graph-panel-toggle" id="graph-toggle" type="button">▲ 收起关系图</button>
       </div>
     </div>
-    <div class="graph-panel-body" id="graph-canvas"></div>
+
+    <!-- 主体：左侧关系图 + 右侧详情卡片（默认隐藏） -->
+    <div class="graph-panel-body" id="graph-panel-body">
+      <div class="graph-canvas-wrapper" id="graph-canvas"></div>
+
+      <!-- 节点详情卡片（点击节点后显示） -->
+      <aside class="graph-detail-card" id="graph-detail-card" hidden aria-labelledby="detail-title">
+        <header class="graph-detail-head">
+          <div class="graph-detail-head-text">
+            <h3 class="graph-detail-title" id="detail-title">—</h3>
+            <p class="graph-detail-sub">
+              <span id="detail-stats">—</span>
+              <button type="button" class="graph-detail-more" id="detail-more">查看更多 ↓</button>
+            </p>
+          </div>
+          <button type="button" class="graph-detail-close" id="detail-close" aria-label="关闭">
+            <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+          </button>
+        </header>
+
+        <div class="graph-detail-list" id="detail-list">
+          <!-- 横版小卡片由 JS 动态填充 -->
+        </div>
+      </aside>
+    </div>
   </section>
 
   <!-- 主体：左筛选 + 右卡片墙 -->
   <div class="cases-page">
 
-    <!-- 左侧筛选器（默认展开） -->
+    <!-- 左侧筛选器（默认展开） · 与 schema v1.10 对齐 -->
     <aside class="sidebar">
       <span class="collapse-toggle">▶ 折叠</span>
 
-      <h4><svg class="icon" aria-hidden="true"><use href="#i-bookmark"/></svg> 已保存的方案</h4>
-      <label><input type="checkbox"> 我的常用</label>
-      <label><input type="checkbox"> 二游标杆案例</label>
-      <label style="color:var(--text-muted)">+ 保存当前筛选</label>
-
+      <!-- ① 游戏维度 -->
       <h4><svg class="icon" aria-hidden="true"><use href="#i-gamepad"/></svg> 游戏维度</h4>
-      <label><input type="checkbox" checked> 品类：二次元</label>
-      <label><input type="checkbox"> 品类：SLG</label>
-      <label><input type="checkbox"> 品类：MOBA</label>
-      <label><input type="checkbox"> 品类：卡牌</label>
-      <label style="color:var(--text-muted)">+ 更多品类</label>
-      <label><input type="checkbox" checked> 体量：大厂</label>
-      <label><input type="checkbox" checked> 体量：中厂</label>
-      <label><input type="checkbox"> 体量：小厂/独立</label>
+      <div class="filter-subhead">厂商 <span class="wf-tiny">game_company</span></div>
+      <label><input type="checkbox"> 米哈游</label>
+      <label><input type="checkbox"> 网易</label>
+      <label><input type="checkbox"> 库洛</label>
+      <label><input type="checkbox"> 鹰角</label>
+      <label><input type="checkbox"> 叠纸</label>
+      <label><input type="checkbox"> 腾讯</label>
+      <label class="filter-more">+ 更多厂商</label>
 
-      <h4><svg class="icon" aria-hidden="true"><use href="#i-palette"/></svg> 联动维度</h4>
-      <label><input type="checkbox"> 主题：三星堆</label>
-      <label><input type="checkbox"> 主题：敦煌</label>
-      <label><input type="checkbox"> 主题：茶文化</label>
-      <label><input type="checkbox"> 主题：京剧</label>
-      <label style="color:var(--text-muted)">+ 更多主题</label>
-      <label><input type="checkbox"> 玩法：皮肤</label>
-      <label><input type="checkbox"> 玩法：活动</label>
-      <label><input type="checkbox"> 玩法：资料片</label>
-      <label><input type="checkbox"> 深度：深度共创</label>
+      <div class="filter-subhead">游戏品类 <span class="wf-tiny">game_genre</span></div>
+      <label><input type="checkbox"> 开放世界 RPG</label>
+      <label><input type="checkbox"> 卡牌 RPG</label>
+      <label><input type="checkbox"> MMORPG</label>
+      <label><input type="checkbox"> MOBA</label>
+      <label><input type="checkbox"> SLG / 策略</label>
+      <label><input type="checkbox"> 射击 / 战术竞技</label>
+      <label><input type="checkbox"> 乙女 / 恋爱</label>
+      <label class="filter-more">+ 更多品类</label>
 
+      <!-- ② 文化维度（核心：两级 themes + 非遗叠加） -->
+      <h4><svg class="icon" aria-hidden="true"><use href="#i-palette"/></svg> 文化维度</h4>
+
+      <div class="filter-subhead">非遗叠加 <span class="wf-tiny">is_intangible_heritage</span></div>
+      <label class="filter-toggle"><input type="checkbox"> 仅看涉及非遗的联动</label>
+
+      <div class="filter-subhead">文化主题 · 一级 <span class="wf-tiny">themes（多选）</span></div>
+      <div class="theme-grid">
+        <label class="theme-chip"><input type="checkbox" data-theme="craft"> 工艺</label>
+        <label class="theme-chip"><input type="checkbox" data-theme="costume"> 服饰织造</label>
+        <label class="theme-chip"><input type="checkbox" data-theme="aesthetics"> 美学风格</label>
+        <label class="theme-chip"><input type="checkbox" data-theme="performing_art"> 表演艺术</label>
+        <label class="theme-chip"><input type="checkbox" data-theme="folk_custom"> 民俗节庆</label>
+        <label class="theme-chip"><input type="checkbox" data-theme="monument"> 建筑遗址</label>
+        <label class="theme-chip"><input type="checkbox" data-theme="landscape"> 风景地貌</label>
+        <label class="theme-chip"><input type="checkbox" data-theme="mythology"> 神话象征</label>
+        <label class="theme-chip"><input type="checkbox" data-theme="historical_figure"> 历史人物</label>
+        <label class="theme-chip"><input type="checkbox" data-theme="civilization"> 历史文明</label>
+        <label class="theme-chip"><input type="checkbox" data-theme="contemporary_public"> 当代公共</label>
+        <label class="theme-chip"><input type="checkbox" data-theme="expert_resource"> 专家口述</label>
+      </div>
+
+      <!-- 二级 themes_l2 容器（默认隐藏，跟随一级选中动态展开） -->
+      <div class="theme-l2-panel" id="theme-l2-panel" hidden>
+        <div class="filter-subhead">文化细分 · 二级 <span class="wf-tiny">themes_l2（多选）</span></div>
+
+        <div class="l2-group" data-parent="craft" hidden>
+          <label><input type="checkbox"> 金属工艺</label>
+          <label><input type="checkbox"> 陶瓷工艺</label>
+          <label><input type="checkbox"> 玉石雕刻</label>
+          <label><input type="checkbox"> 漆器工艺</label>
+          <label><input type="checkbox"> 木作与家具</label>
+          <label><input type="checkbox"> 纸艺与印刷</label>
+          <label><input type="checkbox"> 民间美术</label>
+          <label><input type="checkbox"> 少数民族工艺</label>
+        </div>
+
+        <div class="l2-group" data-parent="costume" hidden>
+          <label><input type="checkbox"> 刺绣</label>
+          <label><input type="checkbox"> 织造</label>
+          <label><input type="checkbox"> 印染</label>
+          <label><input type="checkbox"> 汉服与历代形制</label>
+          <label><input type="checkbox"> 甲胄与军戎</label>
+          <label><input type="checkbox"> 冠冕与头饰</label>
+          <label><input type="checkbox"> 佩饰与配件</label>
+          <label><input type="checkbox"> 少数民族服饰</label>
+          <label><input type="checkbox"> 世界传统服饰</label>
+        </div>
+
+        <div class="l2-group" data-parent="aesthetics" hidden>
+          <label><input type="checkbox"> 水墨与书画</label>
+          <label><input type="checkbox"> 国潮 / 新中式</label>
+          <label><input type="checkbox"> 宗教艺术美学</label>
+          <label><input type="checkbox"> 传统色彩体系</label>
+          <label><input type="checkbox"> 装饰纹样风格</label>
+          <label><input type="checkbox"> 园林与空间美学</label>
+        </div>
+
+        <div class="l2-group" data-parent="performing_art" hidden>
+          <label><input type="checkbox"> 传统戏曲</label>
+          <label><input type="checkbox"> 曲艺与说唱</label>
+          <label><input type="checkbox"> 偶戏与皮影</label>
+          <label><input type="checkbox"> 传统舞蹈</label>
+          <label><input type="checkbox"> 传统器乐</label>
+          <label><input type="checkbox"> 杂技与武术</label>
+          <label><input type="checkbox"> 少数民族表演</label>
+        </div>
+
+        <div class="l2-group" data-parent="folk_custom" hidden>
+          <label><input type="checkbox"> 春节与年俗</label>
+          <label><input type="checkbox"> 传统节庆</label>
+          <label><input type="checkbox"> 人生礼俗与仪式</label>
+          <label><input type="checkbox"> 民间信仰与禁忌</label>
+          <label><input type="checkbox"> 饮食文化</label>
+          <label><input type="checkbox"> 少数民族民俗</label>
+        </div>
+
+        <div class="l2-group" data-parent="monument" hidden>
+          <label><input type="checkbox"> 宫殿与皇家建筑</label>
+          <label><input type="checkbox"> 寺庙与宗教建筑</label>
+          <label><input type="checkbox"> 石窟壁画</label>
+          <label><input type="checkbox"> 古建筑群</label>
+          <label><input type="checkbox"> 陵墓与墓葬</label>
+          <label><input type="checkbox"> 考古遗址</label>
+          <label><input type="checkbox"> 军事防御建筑</label>
+        </div>
+
+        <div class="l2-group" data-parent="landscape" hidden>
+          <label><input type="checkbox"> 山岳</label>
+          <label><input type="checkbox"> 江河湖海</label>
+          <label><input type="checkbox"> 荒漠与戈壁</label>
+          <label><input type="checkbox"> 草原与高原</label>
+          <label><input type="checkbox"> 历史文化名城 / 古镇</label>
+          <label><input type="checkbox"> 文化走廊 / 路线</label>
+          <label><input type="checkbox"> 都市景观</label>
+        </div>
+
+        <div class="l2-group" data-parent="mythology" hidden>
+          <label><input type="checkbox"> 中国神话传说</label>
+          <label><input type="checkbox"> 中国古典文学</label>
+          <label><input type="checkbox"> 佛教题材</label>
+          <label><input type="checkbox"> 道教与仙侠</label>
+          <label><input type="checkbox"> 图腾与象征符号</label>
+          <label><input type="checkbox"> 北欧 / 凯尔特神话</label>
+          <label><input type="checkbox"> 希腊罗马神话</label>
+          <label><input type="checkbox"> 日本神话与妖怪</label>
+          <label><input type="checkbox"> 其他世界神话</label>
+        </div>
+
+        <div class="l2-group" data-parent="historical_figure" hidden>
+          <label><input type="checkbox"> 中国历史人物</label>
+          <label><input type="checkbox"> 中国文学 / 神话角色</label>
+          <label><input type="checkbox"> 世界历史与神话人物</label>
+        </div>
+
+        <div class="l2-group" data-parent="civilization" hidden>
+          <label><input type="checkbox"> 中国历史朝代</label>
+          <label><input type="checkbox"> 丝路与西域</label>
+          <label><input type="checkbox"> 东亚文明（非中国）</label>
+          <label><input type="checkbox"> 中东与北非文明</label>
+          <label><input type="checkbox"> 欧洲历史文明</label>
+          <label><input type="checkbox"> 美洲原住民文明</label>
+          <label><input type="checkbox"> 南亚与东南亚文明</label>
+          <label><input type="checkbox"> 近现代文化</label>
+        </div>
+
+        <div class="l2-group" data-parent="contemporary_public" hidden>
+          <label><input type="checkbox"> 体育赛事与运动</label>
+          <label><input type="checkbox"> 公共文化机构项目</label>
+          <label><input type="checkbox"> 文化公益与传承行动</label>
+        </div>
+
+        <div class="l2-group" data-parent="expert_resource" hidden>
+          <label><input type="checkbox"> 学者与研究</label>
+          <label><input type="checkbox"> 非遗传承人</label>
+          <label><input type="checkbox"> 创作者与设计师</label>
+        </div>
+      </div>
+
+      <!-- ③ 时间维度 -->
       <h4><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg> 时间维度</h4>
-      <label><input type="checkbox" checked> 近 12 月</label>
-      <label><input type="checkbox"> 近 6 月</label>
-      <label><input type="checkbox"> 近 3 月</label>
-      <label><input type="checkbox"> 自定义范围</label>
+      <div class="filter-subhead">快捷范围</div>
+      <label><input type="radio" name="range"> 近 3 月</label>
+      <label><input type="radio" name="range"> 近 6 月</label>
+      <label><input type="radio" name="range" checked> 近 12 月</label>
+      <label><input type="radio" name="range"> 近 3 年</label>
+      <label><input type="radio" name="range"> 全部</label>
 
-      <h4><svg class="icon" aria-hidden="true"><use href="#i-bar-chart"/></svg> 效果维度</h4>
-      <label><input type="checkbox"> S 级</label>
-      <label><input type="checkbox"> A 级</label>
-      <label><input type="checkbox"> B 级</label>
-      <label><input type="checkbox"> 翻车 / 争议</label>
-      <label><input type="checkbox"> 口碑好</label>
-      <label><input type="checkbox"> 口碑差</label>
+      <div class="filter-subhead">按年份 <span class="wf-tiny">year</span></div>
+      <label><input type="checkbox"> 2026</label>
+      <label><input type="checkbox"> 2025</label>
+      <label><input type="checkbox"> 2024</label>
+      <label><input type="checkbox"> 2023</label>
+      <label class="filter-more">+ 更早年份</label>
 
-      <h4><svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg> 标签</h4>
-      <input type="text" placeholder="标签搜索">
+      <!-- ④ 效果与评级 -->
+      <h4><svg class="icon" aria-hidden="true"><use href="#i-bar-chart"/></svg> 效果与评级</h4>
+      <div class="filter-subhead">综合评级 <span class="wf-tiny">collab_rating</span></div>
+      <label><input type="checkbox"> S 级 · 标杆</label>
+      <label><input type="checkbox"> A 级 · 优秀</label>
+      <label><input type="checkbox"> B 级 · 良好</label>
+      <label><input type="checkbox"> C 级 · 基础</label>
     </aside>
 
     <!-- 右侧主区 -->
     <main class="cases-main">
-
-      <!-- 顶部已选筛选条 -->
-      <div class="filter-bar">
-        <div class="chips">
-          <span class="wf-tiny"><svg class="icon" aria-hidden="true"><use href="#i-tag-sm"/></svg> 当前筛选：</span>
-          <span class="chip">品类：二次元 <span class="x" aria-label="移除">✕</span></span>
-          <span class="chip">厂商体量：大厂+中厂 <span class="x" aria-label="移除">✕</span></span>
-          <span class="chip">近 12 月 <span class="x" aria-label="移除">✕</span></span>
-          <span class="wf-tiny">清空全部</span>
-        </div>
-      </div>
 
       <!-- 卡片墙（响应式自适应列数） -->
       <div class="cases-grid">
@@ -582,7 +732,239 @@
       });
       chartInstance.setOption({ series: [series0] });
     });
+
+    /* ----------------------------------------
+     * 监听节点 click：弹出详情卡片 + 聚焦模式
+     * ---------------------------------------- */
+    chartInstance.off('click');
+    chartInstance.on('click', function (params) {
+      if (params.dataType !== 'node') return;
+      openDetail(params.data);
+    });
   }
+
+  /* ==================================================
+   * 4.5 节点详情卡片：开/关 + 聚焦模式
+   * ==================================================
+   * 点击节点 →
+   *   - 关系图缩到 2/3 宽度
+   *   - 只显示该节点 + 一阶邻居（其他节点和边隐藏）
+   *   - 右侧 1/3 显示详情卡片（标题 + 统计 + 联动列表）
+   * 关闭卡片 → 还原全图
+   * ================================================== */
+  const detailCard  = document.getElementById('graph-detail-card');
+  const detailTitle = document.getElementById('detail-title');
+  const detailStats = document.getElementById('detail-stats');
+  const detailList  = document.getElementById('detail-list');
+  const detailClose = document.getElementById('detail-close');
+  const detailMore  = document.getElementById('detail-more');
+  const graphBody   = document.getElementById('graph-panel-body');
+  let savedFullState = null;   // 进入聚焦前的完整 nodes/links 快照
+
+  /**
+   * 解析节点 id（"co-xxx" / "ga-xxx" / "th-xxx"） → { kind, rawId }
+   */
+  function parseNodeId(id) {
+    if (!id) return null;
+    if (id.startsWith('co-')) return { kind: 'company', rawId: id.slice(3) };
+    if (id.startsWith('ga-')) return { kind: 'game',    rawId: id.slice(3) };
+    if (id.startsWith('th-')) return { kind: 'theme',   rawId: id.slice(3) };
+    return null;
+  }
+
+  /**
+   * 根据节点查出"与该节点相关的所有联动条目（原始 collaborations 子集）"
+   */
+  function findCollabsForNode(parsed) {
+    if (!parsed) return [];
+    const { kind, rawId } = parsed;
+    if (kind === 'game') {
+      return DATA.collaborations.filter(c => c.game === rawId);
+    }
+    if (kind === 'theme') {
+      return DATA.collaborations.filter(c => c.theme === rawId);
+    }
+    if (kind === 'company') {
+      const gameIds = new Set(DATA.games.filter(g => g.company === rawId).map(g => g.id));
+      return DATA.collaborations.filter(c => gameIds.has(c.game));
+    }
+    return [];
+  }
+
+  /**
+   * 把厂商/游戏/主题节点 → 一组"相关节点 id 集合"
+   */
+  function findNeighborIds(parsed) {
+    const ids = new Set();
+    if (!parsed) return ids;
+    const { kind, rawId } = parsed;
+    if (kind === 'game') {
+      ids.add('ga-' + rawId);
+      const g = DATA.games.find(g => g.id === rawId);
+      if (g) ids.add('co-' + g.company);
+      DATA.collaborations.forEach(c => {
+        if (c.game === rawId) ids.add('th-' + c.theme);
+      });
+    } else if (kind === 'theme') {
+      ids.add('th-' + rawId);
+      const gameIds = new Set();
+      DATA.collaborations.forEach(c => {
+        if (c.theme === rawId) gameIds.add(c.game);
+      });
+      gameIds.forEach(gid => {
+        ids.add('ga-' + gid);
+        const g = DATA.games.find(g => g.id === gid);
+        if (g) ids.add('co-' + g.company);
+      });
+    } else if (kind === 'company') {
+      ids.add('co-' + rawId);
+      DATA.games.forEach(g => {
+        if (g.company === rawId) {
+          ids.add('ga-' + g.id);
+          DATA.collaborations.forEach(c => {
+            if (c.game === g.id) ids.add('th-' + c.theme);
+          });
+        }
+      });
+    }
+    return ids;
+  }
+
+  /**
+   * 节点 id → 显示名称
+   */
+  function nodeDisplayName(parsed) {
+    if (!parsed) return '—';
+    const { kind, rawId } = parsed;
+    if (kind === 'game')    return (DATA.games.find(g => g.id === rawId) || {}).name || rawId;
+    if (kind === 'theme')   return (DATA.themes.find(t => t.id === rawId) || {}).name || rawId;
+    if (kind === 'company') return (DATA.companies.find(c => c.id === rawId) || {}).name || rawId;
+    return rawId;
+  }
+
+  /**
+   * 统计行文案（真实可计算的数据 + 占位）
+   */
+  function buildStatsText(parsed, collabs) {
+    if (!parsed) return '';
+    const count = collabs.length;
+    const themesSet = new Set(collabs.map(c => c.theme));
+    const gamesSet = new Set(collabs.map(c => c.game));
+    if (parsed.kind === 'game') {
+      return `已联动 ${count} 次 · 涉及 ${themesSet.size} 个文化主题 · 总声量：数据采集中`;
+    }
+    if (parsed.kind === 'theme') {
+      return `被 ${gamesSet.size} 款游戏联动 · 累计 ${count} 条 · 总声量：数据采集中`;
+    }
+    if (parsed.kind === 'company') {
+      return `${gamesSet.size} 款游戏 · 累计 ${count} 条联动 · 总声量：数据采集中`;
+    }
+    return '';
+  }
+
+  /**
+   * 渲染横版小卡列表
+   */
+  function renderMiniCards(collabs) {
+    if (!collabs.length) {
+      detailList.innerHTML = '<div class="graph-detail-empty">暂无相关联动数据</div>';
+      return;
+    }
+    // 按年份倒序
+    const sorted = collabs.slice().sort((a, b) => (b.year || 0) - (a.year || 0));
+    const html = sorted.map(c => {
+      const game  = DATA.games.find(g => g.id === c.game);
+      const theme = DATA.themes.find(t => t.id === c.theme);
+      const gName = game ? game.name : c.game;
+      const tName = theme ? theme.name : c.theme;
+      const forms = (c.forms || []).slice(0, 3).map(f => '#' + f).join(' ');
+      const partner = c.partner ? ' · ' + c.partner : '';
+      return (
+        '<a class="detail-mini-card" href="case-detail.html">' +
+          '<div class="cover-sm">[ 封面 ]</div>' +
+          '<div class="info">' +
+            '<div class="title">' + gName + ' × ' + tName + '</div>' +
+            '<div class="meta">' + (c.year || '—') + partner + '</div>' +
+            '<div class="tags">' + forms + '</div>' +
+          '</div>' +
+        '</a>'
+      );
+    }).join('');
+    detailList.innerHTML = html;
+  }
+
+  /**
+   * 进入聚焦模式：只保留 keepIds 内的节点和它们之间的边
+   */
+  function focusNodes(keepIds) {
+    const opt = chartInstance.getOption();
+    const series0 = opt.series[0];
+    if (!savedFullState) {
+      // 第一次进入：保存完整数据快照
+      savedFullState = {
+        data: series0.data.slice(),
+        links: series0.links.slice()
+      };
+    }
+    const filteredData  = savedFullState.data.filter(n => keepIds.has(n.id));
+    const filteredLinks = savedFullState.links.filter(l =>
+      keepIds.has(l.source) && keepIds.has(l.target) && l._kind !== 'derived'
+    );
+    chartInstance.setOption({
+      series: [{
+        data: filteredData,
+        links: filteredLinks
+      }]
+    });
+  }
+
+  function restoreFullGraph() {
+    if (!savedFullState) return;
+    chartInstance.setOption({
+      series: [{
+        data: savedFullState.data,
+        links: savedFullState.links
+      }]
+    });
+    savedFullState = null;
+  }
+
+  function openDetail(nodeData) {
+    const parsed = parseNodeId(nodeData.id);
+    if (!parsed) return;
+
+    const collabs = findCollabsForNode(parsed);
+    detailTitle.textContent = nodeDisplayName(parsed);
+    detailStats.textContent = buildStatsText(parsed, collabs);
+    renderMiniCards(collabs);
+    detailCard.dataset.kind = parsed.kind;
+    detailCard.dataset.rawid = parsed.rawId;
+
+    // 显示卡片 + 缩小关系图
+    detailCard.hidden = false;
+    graphBody.classList.add('with-detail');
+
+    // 聚焦：只显示该节点 + 一阶邻居
+    const neighbors = findNeighborIds(parsed);
+    focusNodes(neighbors);
+
+    // 等容器宽度过渡完成再 resize
+    setTimeout(() => chartInstance && chartInstance.resize(), 220);
+  }
+
+  function closeDetail() {
+    detailCard.hidden = true;
+    graphBody.classList.remove('with-detail');
+    restoreFullGraph();
+    setTimeout(() => chartInstance && chartInstance.resize(), 220);
+  }
+
+  detailClose.addEventListener('click', closeDetail);
+  detailMore.addEventListener('click', function () {
+    // 滚动到下方卡片墙
+    const main = document.querySelector('.cases-main');
+    if (main) main.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 
   /* ==================================================
    * 5. 监听筛选器变化 - 重新渲染
@@ -594,6 +976,35 @@
       }
     });
   });
+
+  /* ==================================================
+   * 6. 文化主题一级 → 二级动态展开
+   *    选中任意一级 chip 时，整个 .theme-l2-panel 显示；
+   *    对应 data-parent 的 .l2-group 展开，其余隐藏。
+   * ================================================== */
+  (function bindThemeL2Toggle() {
+    const themeChips = document.querySelectorAll('.theme-chip input[type="checkbox"][data-theme]');
+    const l2Panel = document.getElementById('theme-l2-panel');
+    if (!l2Panel) return;
+    const l2Groups = l2Panel.querySelectorAll('.l2-group');
+
+    function update() {
+      let anyOn = false;
+      const activeParents = new Set();
+      themeChips.forEach(cb => {
+        if (cb.checked) {
+          anyOn = true;
+          activeParents.add(cb.dataset.theme);
+        }
+      });
+      l2Panel.hidden = !anyOn;
+      l2Groups.forEach(g => {
+        g.hidden = !activeParents.has(g.dataset.parent);
+      });
+    }
+    themeChips.forEach(cb => cb.addEventListener('change', update));
+    update();  // 初始态
+  })();
 
   /* ==================================================
    * 初始化 + 窗口缩放
