@@ -52,7 +52,7 @@
 
 <div class="page">
 
-  <!-- ① Header -->
+  <!-- ① Header（含搜索栏） -->
   <header class="header">
     <div class="logo">
       <img src="logo-gamemuse.png" alt="Game MUSE · 游戏文化联动情报库" />
@@ -61,27 +61,15 @@
       <a href="home.html" class="active">首页</a>
       <a href="cases.html">联动案例</a>
     </nav>
-    <div class="user">👤 我的</div>
-  </header>
-
-  <!-- ② 搜索栏 + 热搜 -->
-  <section class="search-section">
-    <div class="search-box">
+    <div class="search-box search-box--header">
       <span class="search-box__placeholder">搜索联动案例 / 游戏 / IP / 文化主题…</span>
       <button type="button" class="search-box__btn" aria-label="搜索">
         <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
         <span>搜索</span>
       </button>
     </div>
-    <div class="hot-searches">
-      🔥 热搜：
-      <span class="tag">原神</span>
-      <span class="tag">鸣潮</span>
-      <span class="tag">明日方舟</span>
-      <span class="tag">恋与深空</span>
-      <span class="tag">和平精英</span>
-    </div>
-  </section>
+    <div class="user">👤 我的</div>
+  </header>
 
   <!-- ③ 数据可视化 + 策略分析 -->
   <section class="section">
@@ -90,13 +78,19 @@
       <!-- 左 3/4：数据可视化主图 -->
       <div class="chart-area">
         <div class="chart-tabs">
-          <span class="active" data-tab="kpi"><svg class="icon icon--accent" aria-hidden="true"><use href="#i-target"/></svg> 行业脉搏</span>
+          <span class="active" data-tab="graph"><svg class="icon icon--accent" aria-hidden="true"><use href="#i-network"/></svg> 联动关系图</span>
           <span data-tab="bubble"><svg class="icon icon--accent" aria-hidden="true"><use href="#i-flame"/></svg> 主题热度气泡图</span>
-          <span data-tab="graph"><svg class="icon icon--accent" aria-hidden="true"><use href="#i-network"/></svg> 联动关系图</span>
+          <span data-tab="kpi"><svg class="icon icon--accent" aria-hidden="true"><use href="#i-target"/></svg> 行业脉搏</span>
         </div>
 
-        <!-- Tab 1: KPI 大屏（默认显示） -->
-        <div class="kpi-dashboard tab-panel" data-panel="kpi">
+        <!-- Tab 1: 联动关系力导向图（默认显示） -->
+        <div class="chart-canvas tab-panel" data-panel="graph"></div>
+
+        <!-- Tab 2: 主题热度气泡图 -->
+        <div class="chart-canvas tab-panel" data-panel="bubble" style="display:none;"></div>
+
+        <!-- Tab 3: KPI 大屏 -->
+        <div class="kpi-dashboard tab-panel" data-panel="kpi" style="display:none;">
           <div class="kpi-card">
             <div class="kpi-label">2026 年新增联动</div>
             <div class="kpi-value" id="kpi-new">--</div>
@@ -119,12 +113,6 @@
           </div>
         </div>
 
-        <!-- Tab 2: 主题热度气泡图 -->
-        <div class="chart-canvas tab-panel" data-panel="bubble" style="display:none;"></div>
-
-        <!-- Tab 3: 联动关系力导向图 -->
-        <div class="chart-canvas tab-panel" data-panel="graph" style="display:none;"></div>
-
         <div class="chart-footer">
           <span id="chart-hint">数据基于项目内 3 份调研文档真实统计</span>
           <span>数据来源：游戏 x 文化联动调研 · 更新于 <span id="chart-updated">--</span></span>
@@ -141,7 +129,7 @@
             <div class="info">
               <div class="title">鸣潮 × 三星堆</div>
               <div class="meta">库洛 · 2026-06-10</div>
-              <div class="badges"><span>S级</span></div>
+              <div class="badges"><span>舆89</span><span>S级</span></div>
             </div>
           </div>
 
@@ -150,7 +138,7 @@
             <div class="info">
               <div class="title">恋与深空 × 京剧</div>
               <div class="meta">叠纸 · 2026-06-01</div>
-              <div class="badges"><span>A级</span></div>
+              <div class="badges"><span>舆91</span><span>A级</span></div>
             </div>
           </div>
 
@@ -159,7 +147,7 @@
             <div class="info">
               <div class="title">明日方舟 × 昆曲</div>
               <div class="meta">鹰角 · 2026-05-25</div>
-              <div class="badges"><span>A级</span></div>
+              <div class="badges"><span>舆83</span><span>A级</span></div>
             </div>
           </div>
 
@@ -293,7 +281,9 @@
         text: '文化主题热度分布',
         subtext: 'X=被联动游戏数 · Y=被联动厂商数 · 气泡大小=联动条目总数',
         left: 'center',
-        textStyle: { fontSize: 14, fontWeight: 600 },
+        top: 8,
+        itemGap: 6,
+        textStyle: { fontSize: 14, fontWeight: 600, color: '#222' },
         subtextStyle: { fontSize: 11, color: '#888' }
       },
       tooltip: {
@@ -304,7 +294,7 @@
             + '联动条目总数：' + p.data.value[2];
         }
       },
-      grid: { left: 60, right: 40, top: 70, bottom: 50 },
+      grid: { left: 60, right: 40, top: 80, bottom: 56 },
       xAxis: {
         name: '被联动游戏数',
         nameLocation: 'middle',
@@ -374,8 +364,13 @@
         category: 1,
         symbolSize: 14
       });
-      // 厂商 → 游戏
-      links.push({ source: 'co-' + g.company, target: 'ga-' + g.id, value: 1 });
+      // 厂商 → 游戏（直接边）
+      links.push({
+        source: 'co-' + g.company,
+        target: 'ga-' + g.id,
+        value: 1,
+        _kind: 'direct'
+      });
     });
     DATA.themes.forEach(t => {
       nodes.push({
@@ -387,12 +382,41 @@
       });
     });
 
-    // 游戏 → 主题（基于真实联动条目）
+    // 游戏 → 主题（直接边，基于真实联动条目）
     DATA.collaborations.forEach(c => {
       links.push({
         source: 'ga-' + c.game,
         target: 'th-' + c.theme,
-        value: 2
+        value: 2,
+        _kind: 'direct'
+      });
+    });
+
+    /* ----------------------------------------
+     * 派生边：厂商 → 主题（经由游戏聚合）
+     * 当用户关闭"游戏"图例时启用，避免厂商-主题视觉失联
+     * ---------------------------------------- */
+    const ctMap = {};  // ctMap['co-X|th-Y'] = count
+    DATA.collaborations.forEach(c => {
+      const g = DATA.games.find(g => g.id === c.game);
+      if (!g) return;
+      const key = 'co-' + g.company + '|th-' + c.theme;
+      ctMap[key] = (ctMap[key] || 0) + 1;
+    });
+    Object.keys(ctMap).forEach(key => {
+      const [src, tgt] = key.split('|');
+      links.push({
+        source: src,
+        target: tgt,
+        value: ctMap[key],
+        _kind: 'derived',
+        // 派生边默认完全透明（不影响初始视图）
+        lineStyle: {
+          opacity: 0,
+          type: 'dashed',
+          width: 0.6 + Math.min(ctMap[key] * 0.4, 2.4),
+          color: '#7C3AED'
+        }
       });
     });
 
@@ -401,7 +425,9 @@
         text: '厂商 — 游戏 — 文化主题 关系网络',
         subtext: '节点 ' + nodes.length + ' 个 · 关系 ' + links.length + ' 条 · 可拖拽 / 滚轮缩放',
         left: 'center',
-        textStyle: { fontSize: 14, fontWeight: 600 },
+        top: 8,
+        itemGap: 6,
+        textStyle: { fontSize: 14, fontWeight: 600, color: '#222' },
         subtextStyle: { fontSize: 11, color: '#888' }
       },
       tooltip: {
@@ -413,17 +439,29 @@
             if (p.data.category === 2) extra = '<br>被联动游戏数：' + p.data.value;
             return '<b>' + p.data.name + '</b><br>类型：' + cat + extra;
           }
+          if (p.dataType === 'edge' && p.data._kind === 'derived') {
+            return '厂商 ↔ 文化主题（经由游戏聚合）<br>联动条目数：<b>' + p.data.value + '</b>';
+          }
           return '';
         }
       },
       legend: [{
         data: ['厂商', '游戏', '文化主题'],
-        top: 40,
-        textStyle: { fontSize: 11 }
+        top: 60,                       /* 在 title + subtext 下方 */
+        left: 'center',
+        itemGap: 18,
+        itemWidth: 10,
+        itemHeight: 10,
+        textStyle: { fontSize: 11, color: '#666' }
       }],
+      /* 给图形区域留出顶部 92px（title 8 + 主标题 18 + subtext 14 + legend 行 + 间距） */
       series: [{
         type: 'graph',
         layout: 'force',
+        top: 92,
+        bottom: 12,
+        left: 12,
+        right: 12,
         data: nodes,
         links: links,
         categories: [
@@ -436,21 +474,47 @@
         label: {
           show: true,
           position: 'right',
+          distance: 4,
           fontSize: 10,
+          color: '#333',
           formatter: '{b}'
         },
-        labelLayout: { hideOverlap: true },
+        labelLayout: { hideOverlap: true, moveOverlap: 'shiftY' },
         force: {
-          repulsion: 180,
-          edgeLength: [40, 90],
-          gravity: 0.12
+          repulsion: 220,
+          edgeLength: [50, 110],
+          gravity: 0.1,
+          friction: 0.6
         },
-        lineStyle: { color: '#bbb', width: 0.8, opacity: 0.5, curveness: 0.1 },
+        lineStyle: { color: '#bbb', width: 0.8, opacity: 0.45, curveness: 0.1 },
         emphasis: {
           focus: 'adjacency',
           lineStyle: { width: 2, opacity: 1 }
         }
       }]
+    });
+
+    /* ----------------------------------------
+     * 监听 legend 切换：当"游戏"关闭时启用派生边
+     * ---------------------------------------- */
+    graphChart.off('legendselectchanged');
+    graphChart.on('legendselectchanged', function (params) {
+      const gameOn = params.selected['游戏'];
+      const opt = graphChart.getOption();
+      const series0 = opt.series[0];
+      series0.links = series0.links.map(l => {
+        if (l._kind === 'derived') {
+          // 仅当游戏隐藏 且 派生边两端类型仍可见时显示
+          const coOn = params.selected['厂商'];
+          const thOn = params.selected['文化主题'];
+          const show = !gameOn && coOn && thOn;
+          return Object.assign({}, l, {
+            lineStyle: Object.assign({}, l.lineStyle, { opacity: show ? 0.55 : 0 })
+          });
+        }
+        return l;
+      });
+      graphChart.setOption({ series: [series0] });
     });
   }
 
@@ -476,15 +540,22 @@
     if (tabName === 'graph' && !rendered.graph) {
       setTimeout(() => { renderGraph(); rendered.graph = true; }, 30);
     }
+    if (tabName === 'kpi' && !rendered.kpi) {
+      renderKPI();
+      rendered.kpi = true;
+    }
   }
 
   tabs.forEach(t => {
     t.addEventListener('click', () => activate(t.dataset.tab));
   });
 
-  /* 初始化 */
+  /* 初始化：默认展示联动关系图 */
+  // KPI 中的"数据更新时间"在 renderKPI 内一并填充，这里先填一次
+  // （即使 KPI tab 尚未显示，也确保 chart-footer 文案有值）
   renderKPI();
   rendered.kpi = true;
+  setTimeout(() => { renderGraph(); rendered.graph = true; }, 30);
 
   /* 窗口缩放时重渲 */
   window.addEventListener('resize', () => {

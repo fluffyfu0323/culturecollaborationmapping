@@ -441,15 +441,50 @@
       });
     });
 
-    // 4) 构造边
+    // 4) 构造边（直接边：厂商→游戏，游戏→主题）
     const links = [];
     DATA.games.forEach(g => {
       if (gameIds.has(g.id) && companyIds.has(g.company)) {
-        links.push({ source: 'co-' + g.company, target: 'ga-' + g.id });
+        links.push({
+          source: 'co-' + g.company,
+          target: 'ga-' + g.id,
+          _kind: 'direct'
+        });
       }
     });
     collabs.forEach(c => {
-      links.push({ source: 'ga-' + c.game, target: 'th-' + c.theme });
+      links.push({
+        source: 'ga-' + c.game,
+        target: 'th-' + c.theme,
+        _kind: 'direct'
+      });
+    });
+
+    // 5) 派生边（厂商 ↔ 主题，经由游戏聚合）
+    // 默认透明；当用户在 legend 中关闭"游戏"时启用
+    const ctMap = {};
+    collabs.forEach(c => {
+      const g = DATA.games.find(g => g.id === c.game);
+      if (!g) return;
+      // 两端必须都在筛选后的节点集合里
+      if (!companyIds.has(g.company) || !themeIds.has(c.theme)) return;
+      const key = 'co-' + g.company + '|th-' + c.theme;
+      ctMap[key] = (ctMap[key] || 0) + 1;
+    });
+    Object.keys(ctMap).forEach(key => {
+      const [src, tgt] = key.split('|');
+      links.push({
+        source: src,
+        target: tgt,
+        value: ctMap[key],
+        _kind: 'derived',
+        lineStyle: {
+          opacity: 0,
+          type: 'dashed',
+          width: 0.6 + Math.min(ctMap[key] * 0.4, 2.4),
+          color: '#7C3AED'
+        }
+      });
     });
 
     return { nodes, links, collabCount: collabs.length };
@@ -471,12 +506,17 @@
     chartInstance.setOption({
       tooltip: {
         formatter: function (p) {
-          if (p.dataType !== 'node') return '';
-          const cat = ['厂商', '游戏', '文化主题'][p.data.category];
-          let extra = '';
-          if (p.data._type === 'company') extra = '<br>当前筛选下联动数：' + p.data.value;
-          if (p.data._type === 'theme')   extra = '<br>当前筛选下被联动游戏数：' + p.data.value;
-          return '<b>' + p.data.name + '</b><br>类型：' + cat + extra;
+          if (p.dataType === 'node') {
+            const cat = ['厂商', '游戏', '文化主题'][p.data.category];
+            let extra = '';
+            if (p.data._type === 'company') extra = '<br>当前筛选下联动数：' + p.data.value;
+            if (p.data._type === 'theme')   extra = '<br>当前筛选下被联动游戏数：' + p.data.value;
+            return '<b>' + p.data.name + '</b><br>类型：' + cat + extra;
+          }
+          if (p.dataType === 'edge' && p.data._kind === 'derived') {
+            return '厂商 ↔ 文化主题（经由游戏聚合）<br>联动条目数：<b>' + p.data.value + '</b>';
+          }
+          return '';
         }
       },
       legend: [{
@@ -519,6 +559,29 @@
         }
       }]
     }, true); // 第二个参数 true = 不合并 option，完全替换（关键：筛选后重渲）
+
+    /* ----------------------------------------
+     * 监听 legend 切换：当"游戏"关闭时启用派生边
+     * （避免厂商-主题视觉失联）
+     * ---------------------------------------- */
+    chartInstance.off('legendselectchanged');
+    chartInstance.on('legendselectchanged', function (params) {
+      const gameOn = params.selected['游戏'];
+      const coOn = params.selected['厂商'];
+      const thOn = params.selected['文化主题'];
+      const opt = chartInstance.getOption();
+      const series0 = opt.series[0];
+      series0.links = series0.links.map(l => {
+        if (l._kind === 'derived') {
+          const show = !gameOn && coOn && thOn;
+          return Object.assign({}, l, {
+            lineStyle: Object.assign({}, l.lineStyle, { opacity: show ? 0.55 : 0 })
+          });
+        }
+        return l;
+      });
+      chartInstance.setOption({ series: [series0] });
+    });
   }
 
   /* ==================================================

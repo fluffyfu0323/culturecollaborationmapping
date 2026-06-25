@@ -136,7 +136,9 @@ body {
 
 .logo {
   height: 40px;
-  margin-right: var(--space-xl);
+  margin-right: var(--space-lg);
+  display: flex;
+  align-items: center;
 }
 .logo img {
   height: 100%;
@@ -148,14 +150,19 @@ body {
 .nav {
   display: flex;
   gap: var(--space-xl);
-  flex: 1;
+  flex: 0 0 auto;            /* 覆盖 wireframe.css 中的 flex:1 */
+  align-items: center;
+  height: 36px;
 }
 .nav a {
   color: var(--text-light);
   text-decoration: none;
   font-size: var(--text-md);
   font-weight: 500;
-  padding: var(--space-sm) 0;
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0;
   border-bottom: 2px solid transparent;
   transition: color var(--duration) var(--ease-out),
               border-color var(--duration) var(--ease-out);
@@ -168,9 +175,13 @@ body {
 }
 
 .user {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  margin-left: auto;          /* 把"我的"推到最右 */
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
-  padding: var(--space-sm) var(--space-md);
+  padding: 0 var(--space-md);
   font-size: var(--text-sm);
   color: var(--text-light);
   background: var(--bg);
@@ -183,26 +194,20 @@ body {
   border-color: #D9D9D9;
 }
 
-/* ---------- ② 搜索栏 + 热搜 ---------- */
-.search-section {
-  padding: var(--space-xl) 0 var(--space-lg);
-  text-align: center;
-  background: var(--bg);
-  border-bottom: none;
-}
-
+/* ---------- ② Header 内搜索栏（紧贴导航，左侧布局） ---------- */
 .search-box {
-  max-width: 720px;
-  margin: 0 auto var(--space-md);
+  flex: 0 1 440px;            /* 默认 440px 宽，必要时可缩 */
+  min-width: 0;
+  height: 44px;
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
-  padding: var(--space-xs) var(--space-xs) var(--space-xs) var(--space-lg);
+  padding: 0 5px 0 var(--space-lg);
   background: var(--bg);
   box-shadow: var(--shadow-sm);
   cursor: text;
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  gap: var(--space-sm);
   transition: box-shadow var(--duration) var(--ease-out),
               border-color var(--duration) var(--ease-out);
 }
@@ -216,8 +221,7 @@ body {
   min-width: 0;
   font-size: var(--text-md);
   color: var(--text-muted);
-  line-height: var(--leading-snug);
-  padding-block: var(--space-sm);
+  line-height: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -226,7 +230,10 @@ body {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-xs);
+  height: 34px;
+  padding: 0 var(--space-lg);
   font-family: var(--font-ui);
   font-size: var(--text-base);
   font-weight: 600;
@@ -235,7 +242,6 @@ body {
   background: var(--accent);
   border: none;
   border-radius: var(--radius-pill);
-  padding: var(--space-sm) var(--space-lg);
   cursor: pointer;
   letter-spacing: var(--tracking-label);
   transition: background var(--duration) var(--ease-out),
@@ -253,35 +259,6 @@ body {
   width: 1.1em;
   height: 1.1em;
   stroke-width: 2;
-}
-
-.hot-searches {
-  font-size: var(--text-sm);
-  color: var(--text-light);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: var(--space-sm);
-}
-.hot-searches .tag {
-  display: inline-block;
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-pill);
-  padding: var(--space-xs) var(--space-md);
-  margin: 0;
-  color: var(--text);
-  background: var(--bg-card);
-  font-size: var(--text-sm);
-  cursor: pointer;
-  transition: background var(--duration) var(--ease-out),
-              border-color var(--duration) var(--ease-out),
-              color var(--duration) var(--ease-out);
-}
-.hot-searches .tag:hover {
-  background: var(--accent-light);
-  border-color: var(--accent-light);
-  color: var(--accent-hover);
 }
 
 /* ---------- ③ 数据可视化 + 最新联动 ---------- */
@@ -644,13 +621,15 @@ body {
     flex-wrap: wrap;
   }
   .logo { margin-right: 0; }
-  .nav { gap: var(--space-md); order: 3; flex-basis: 100%; }
-  .search-section { padding: var(--space-lg) 0 var(--space-md); }
+  .nav { gap: var(--space-md); }
   .search-box {
-    padding-left: var(--space-md);
+    order: 3;
+    flex-basis: 100%;
+    max-width: none;
+    margin-inline: 0;
   }
   .search-box__placeholder {
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
   }
   .search-box__btn {
     padding: var(--space-sm) var(--space-md);
