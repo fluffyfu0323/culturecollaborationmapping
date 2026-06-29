@@ -697,6 +697,103 @@ body {
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
+/* ---------- 商业化表现：流水图表 + 洞察 + 评级明细 ---------- */
+.detail-main .chart-container {
+  margin-top: var(--space-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  padding: var(--space-sm);
+  box-shadow: var(--shadow-sm);
+}
+.detail-main .revenue-chart {
+  width: 100%;
+  height: 320px;
+}
+.detail-main .topic-chart {
+  width: 100%;
+  height: 420px;        /* 15 个话题，每条约 28px */
+}
+
+/* 词云容器 + 图例 */
+.detail-main .wordcloud-wrapper {
+  position: relative;
+}
+.detail-main .keyword-wordcloud {
+  width: 100%;
+  height: 360px;
+}
+.detail-main .wordcloud-legend {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 4px var(--space-md);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  color: var(--text-light);
+}
+.detail-main .wordcloud-legend .dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-left: var(--space-sm);
+}
+.detail-main .wordcloud-legend .dot:first-child { margin-left: 0; }
+.detail-main .wordcloud-legend .dot-pos { background: #3a6ea5; }
+.detail-main .wordcloud-legend .dot-neu { background: #999; }
+.detail-main .wordcloud-legend .dot-neg { background: #c44; }
+
+/* 关键洞察列表（与默认 ul 区分） */
+.detail-main .insight-list {
+  margin: var(--space-sm) 0 var(--space-md);
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+.detail-main .insight-list li {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-card);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--text);
+}
+.detail-main .insight-list li b {
+  color: var(--accent-hover);
+  font-weight: 600;
+}
+
+/* 评级 3 维明细列表（A / B / C） */
+.detail-main .rating-breakdown {
+  margin: var(--space-sm) 0 var(--space-md);
+  padding-left: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+.detail-main .rating-breakdown li {
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--text);
+}
+.detail-main .rating-breakdown li b {
+  color: var(--text);
+}
+
+/* 商业化 KPI 行：与 hero kpi 同样式，但顶部留间距 */
+.detail-main .commercial-kpis {
+  margin-top: var(--space-sm);
+}
+
 /* 占位斜纹（图表/时间线/词云） */
 .detail-main .wf-placeholder {
   background: repeating-linear-gradient(
