@@ -108,7 +108,11 @@
 
     <!-- 主体：左侧关系图 + 右侧详情卡片（默认隐藏） -->
     <div class="graph-panel-body" id="graph-panel-body">
-      <div class="graph-canvas-wrapper" id="graph-canvas"></div>
+      <div class="graph-canvas-wrapper">
+        <div id="graph-canvas" class="graph-canvas"></div>
+        <!-- 左上角指引小字（HTML 层，不受 ECharts 重绘影响） -->
+        <div class="graph-hint" aria-hidden="true">点击节点查看更多</div>
+      </div>
 
       <!-- 节点详情卡片（点击节点后显示） -->
       <aside class="graph-detail-card" id="graph-detail-card" hidden aria-labelledby="detail-title">
@@ -117,7 +121,7 @@
             <h3 class="graph-detail-title" id="detail-title">—</h3>
             <p class="graph-detail-sub">
               <span id="detail-stats">—</span>
-              <button type="button" class="graph-detail-more" id="detail-more">查看更多 ↓</button>
+              <button type="button" class="graph-detail-more" id="detail-more">查看更多</button>
             </p>
           </div>
           <button type="button" class="graph-detail-close" id="detail-close" aria-label="关闭">
@@ -327,130 +331,228 @@
     <!-- 右侧主区 -->
     <main class="cases-main">
 
-      <!-- 卡片墙（响应式自适应列数） -->
+      <!-- 卡片墙（20 张真实案例 · 对齐 mock-data.js · 新窗口打开详情） -->
       <div class="cases-grid">
 
-        <a href="case-detail.html">
-        <div class="case-card">
-          <div class="cover">[ 封面 16:9 ]</div>
-          <div class="body">
-            <div class="title">鸣潮 × 三星堆</div>
-            <div class="meta">库洛 · 2026-06-10</div>
-            <div class="badges"><span class="money">💰3.2亿</span><span class="s-rank">S级</span><span>28天</span></div>
-            <div class="tags">#三星堆 #二游 #深度</div>
+        <!-- 1. 逆水寒手游 × 敦煌（2026 预告） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="逆水寒手游 × 敦煌">逆水寒手游 × 敦煌</div>
+              <div class="meta" title="网易 · 2026 · 敦煌（预告）">网易 · 2026 · 敦煌（预告）</div>
+            </div>
           </div>
-        </div>
         </a>
 
-        <div class="case-card">
-          <div class="cover">[ 封面 16:9 ]</div>
-          <div class="body">
-            <div class="title">原神 × 中国茶</div>
-            <div class="meta">米哈游 · 2026-05-20</div>
-            <div class="badges"><span class="money">💰8亿</span><span class="s-rank">S级</span><span>35天</span></div>
-            <div class="tags">#茶文化 #非遗</div>
+        <!-- 2. 超自然行动组 × 华县皮影戏（2026） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="超自然行动组 × 华县皮影戏">超自然行动组 × 华县皮影戏</div>
+              <div class="meta" title="巨人网络 · 2026 · 华县皮影传承人（杜彩红/汪天稳）">巨人网络 · 2026 · 华县皮影传承人（杜彩红/汪天稳）</div>
+            </div>
           </div>
-        </div>
+        </a>
 
-        <div class="case-card">
-          <div class="cover">[ 封面 16:9 ]</div>
-          <div class="body">
-            <div class="title">王者荣耀 × 敦煌</div>
-            <div class="meta">腾讯 · 2026-04-15</div>
-            <div class="badges"><span class="money">💰1.5亿</span><span class="b-rank">B级</span><span>14天</span></div>
-            <div class="tags">#敦煌 #莫高窟 #争议</div>
+        <!-- 3. 燕云十六声 × 河南曲剧（2026） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="燕云十六声 × 京剧/戏曲">燕云十六声 × 京剧/戏曲</div>
+              <div class="meta" title="网易 · 2026 · 河南省曲剧艺术保护传承中心">网易 · 2026 · 河南省曲剧艺术保护传承中心</div>
+            </div>
           </div>
-        </div>
+        </a>
 
-        <div class="case-card">
-          <div class="cover">[ 封面 16:9 ]</div>
-          <div class="body">
-            <div class="title">恋与深空 × 京剧</div>
-            <div class="meta">叠纸 · 2026-06-01</div>
-            <div class="badges"><span class="money">💰未公开</span><span class="a-rank">A级</span><span>21天</span></div>
-            <div class="tags">#京剧 #女性向</div>
+        <!-- 4. 三国志·战略版 × 南越王博物院（2026） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="三国志·战略版 × 南越王博物院">三国志·战略版 × 南越王博物院</div>
+              <div class="meta" title="灵犀互娱 · 2026 · 南越王博物院">灵犀互娱 · 2026 · 南越王博物院</div>
+            </div>
           </div>
-        </div>
+        </a>
 
-        <div class="case-card">
-          <div class="cover">[ 封面 16:9 ]</div>
-          <div class="body">
-            <div class="title">明日方舟 × 昆曲</div>
-            <div class="meta">鹰角 · 2026-05-25</div>
-            <div class="badges"><span class="money">💰未公开</span><span class="a-rank">A级</span><span>21天</span></div>
-            <div class="tags">#昆曲 #非遗</div>
+        <!-- 5. 原神 × 贵州傩戏（2025） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="原神 × 傩戏/傩面具">原神 × 傩戏/傩面具</div>
+              <div class="meta" title="米哈游 · 2025 · 贵州省文旅">米哈游 · 2025 · 贵州省文旅</div>
+            </div>
           </div>
-        </div>
+        </a>
 
-        <div class="case-card">
-          <div class="cover">[ 封面 16:9 ]</div>
-          <div class="body">
-            <div class="title">蛋仔派对 × 三星堆</div>
-            <div class="meta">网易 · 2026-05-10</div>
-            <div class="badges"><span class="money">💰2.1亿</span><span class="a-rank">A级</span><span>30天</span></div>
-            <div class="tags">#三星堆 #休闲</div>
+        <!-- 6. 燕云十六声 × 山西文博（2025） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="燕云十六声 × 山西文博">燕云十六声 × 山西文博</div>
+              <div class="meta" title="网易 · 2025 · 开封文旅">网易 · 2025 · 开封文旅</div>
+            </div>
           </div>
-        </div>
+        </a>
 
-        <div class="case-card">
-          <div class="cover">[ 封面 16:9 ]</div>
-          <div class="body">
-            <div class="title">原神 × 京剧</div>
-            <div class="meta">米哈游 · 2026-04-01</div>
-            <div class="badges"><span class="money">💰6.5亿</span><span class="s-rank">S级</span><span>35天</span></div>
-            <div class="tags">#京剧 #国风</div>
+        <!-- 7. 燕云十六声 × 甘肃省博物馆（2025） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="燕云十六声 × 甘肃省博物馆">燕云十六声 × 甘肃省博物馆</div>
+              <div class="meta" title="网易 · 2025 · 甘肃省博物馆">网易 · 2025 · 甘肃省博物馆</div>
+            </div>
           </div>
-        </div>
+        </a>
 
-        <div class="case-card">
-          <div class="cover">[ 封面 16:9 ]</div>
-          <div class="body">
-            <div class="title">鸣潮 × 京剧</div>
-            <div class="meta">库洛 · 2026-03-20</div>
-            <div class="badges"><span class="money">💰2.4亿</span><span class="a-rank">A级</span><span>28天</span></div>
-            <div class="tags">#京剧 #二游</div>
+        <!-- 8. 逆水寒手游 × 100+ 国家级非遗矩阵（2025） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="逆水寒手游 × 100+ 国家级非遗矩阵">逆水寒手游 × 100+ 国家级非遗矩阵</div>
+              <div class="meta" title="网易 · 2025 · 多家非遗机构与传承人">网易 · 2025 · 多家非遗机构与传承人</div>
+            </div>
           </div>
-        </div>
+        </a>
 
-        <div class="case-card">
-          <div class="cover">[ 封面 16:9 ]</div>
-          <div class="body">
-            <div class="title">第五人格 × 神话</div>
-            <div class="meta">网易 · 2026-03-15</div>
-            <div class="badges"><span class="money">💰1.8亿</span><span class="b-rank">B级</span><span>21天</span></div>
-            <div class="tags">#神话 #暗黑风</div>
+        <!-- 9. 逆水寒手游 × 海丝/泉州（2025） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="逆水寒手游 × 海丝/闽南（泉州）">逆水寒手游 × 海丝/闽南（泉州）</div>
+              <div class="meta" title="网易 · 2025 · 泉州文旅/海交馆/南音传承人">网易 · 2025 · 泉州文旅/海交馆/南音传承人</div>
+            </div>
           </div>
-        </div>
+        </a>
 
-        <div class="case-card">
-          <div class="cover">[ 封面 16:9 ]</div>
-          <div class="body">
-            <div class="title">逆水寒 × 武侠</div>
-            <div class="meta">网易 · 2026-02-28</div>
-            <div class="badges"><span class="money">💰5亿</span><span class="s-rank">S级</span><span>45天</span></div>
-            <div class="tags">#武侠 #国风</div>
+        <!-- 10. 永劫无间 × 海丝柯桐湾（2025） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="永劫无间手游 × 海丝/闽南">永劫无间手游 × 海丝/闽南</div>
+              <div class="meta" title="网易 · 2025 · 永劫海丝柯桐湾地图">网易 · 2025 · 永劫海丝柯桐湾地图</div>
+            </div>
           </div>
-        </div>
+        </a>
 
-        <div class="case-card">
-          <div class="cover">[ 封面 16:9 ]</div>
-          <div class="body">
-            <div class="title">和平精英 × 国风</div>
-            <div class="meta">腾讯 · 2026-02-10</div>
-            <div class="badges"><span class="money">💰3亿</span><span class="b-rank">B级</span><span>21天</span></div>
-            <div class="tags">#国风 #FPS</div>
+        <!-- 11. 永劫无间 × 31 项非遗（2025） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="永劫无间手游 × 31 项非遗">永劫无间手游 × 31 项非遗</div>
+              <div class="meta" title="网易 · 2025 · 31 项非遗联动">网易 · 2025 · 31 项非遗联动</div>
+            </div>
           </div>
-        </div>
+        </a>
 
-        <div class="case-card">
-          <div class="cover">[ 封面 16:9 ]</div>
-          <div class="body">
-            <div class="title">崩坏：星穹铁道 × 茶</div>
-            <div class="meta">米哈游 · 2026-01-25</div>
-            <div class="badges"><span class="money">💰7亿</span><span class="s-rank">S级</span><span>42天</span></div>
-            <div class="tags">#茶文化 #二游</div>
+        <!-- 12. 第五人格 × 故宫观唐（2025） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="第五人格 × 故宫观唐">第五人格 × 故宫观唐</div>
+              <div class="meta" title="网易 · 2025 · 故宫观唐">网易 · 2025 · 故宫观唐</div>
+            </div>
           </div>
-        </div>
+        </a>
+
+        <!-- 13. 第五人格 × 北京皮影剧团（2025） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="第五人格 × 华县皮影戏">第五人格 × 华县皮影戏</div>
+              <div class="meta" title="网易 · 2025 · 北京皮影剧团">网易 · 2025 · 北京皮影剧团</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- 14. 超自然行动组 × 敦煌艺术馆（2025） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="超自然行动组 × 敦煌">超自然行动组 × 敦煌</div>
+              <div class="meta" title="巨人网络 · 2025 · 敦煌艺术馆">巨人网络 · 2025 · 敦煌艺术馆</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- 15. 恋与制作人 × 故宫博物院（2025） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="恋与制作人 × 故宫">恋与制作人 × 故宫</div>
+              <div class="meta" title="叠纸 · 2025 · 故宫博物院">叠纸 · 2025 · 故宫博物院</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- 16. 恋与制作人 × 敦煌 8 周年（2025） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="恋与制作人 × 敦煌（8 周年）">恋与制作人 × 敦煌（8 周年）</div>
+              <div class="meta" title="叠纸 · 2025 · 敦煌 8 周年综合">叠纸 · 2025 · 敦煌 8 周年综合</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- 17. 率土之滨 × 龙泉宝剑（2024） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="率土之滨 × 龙泉宝剑">率土之滨 × 龙泉宝剑</div>
+              <div class="meta" title="网易 · 2024 · 龙泉非遗铸剑传承人">网易 · 2024 · 龙泉非遗铸剑传承人</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- 18. 明日方舟 × 南越王博物院（2024） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="明日方舟 × 南越王博物院">明日方舟 × 南越王博物院</div>
+              <div class="meta" title="鹰角网络 · 2024 · 南越王博物院">鹰角网络 · 2024 · 南越王博物院</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- 19. 恋与深空 × 簪花围（2024） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="恋与深空 × 簪花围/汉服">恋与深空 × 簪花围/汉服</div>
+              <div class="meta" title="叠纸 · 2024 · 靖西壮族博物馆+绣球传承人">叠纸 · 2024 · 靖西壮族博物馆+绣球传承人</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- 20. 黑神话：悟空 × 山西文博（2024） -->
+        <a class="case-card-link" href="case-detail.html" target="_blank" rel="noopener noreferrer">
+          <div class="case-card">
+            <div class="cover">[ 封面 16:9 ]</div>
+            <div class="body">
+              <div class="title" title="黑神话：悟空 × 山西文博">黑神话：悟空 × 山西文博</div>
+              <div class="meta" title="游戏科学 · 2024 · 山西文旅（27 处取景地）">游戏科学 · 2024 · 山西文旅（27 处取景地）</div>
+            </div>
+          </div>
+        </a>
 
       </div>
 
@@ -476,6 +578,15 @@
     console.error('mock-data.js 未加载');
     return;
   }
+
+  /* ----------------------------------------
+   * 关系图布局常量
+   * ---------------------------------------- */
+  // 默认在画布右侧预留 360px 空白，让节点向左偏移；
+  // 详情卡片弹出时变成 16（因为外部容器已变窄到 ~66.6%，无需再留）。
+  let GRAPH_RIGHT_RESERVED = 360;
+  const GRAPH_RIGHT_DEFAULT = 360;
+  const GRAPH_RIGHT_DETAIL  = 16;
 
   /* ==================================================
    * 1. 折叠 / 展开 关系图面板
@@ -672,12 +783,21 @@
       legend: [{
         data: ['厂商', '游戏', '文化主题'],
         top: 8,
-        right: 16,
-        textStyle: { fontSize: 11 }
+        left: 16,                     /* 改：从右上移到左上 */
+        orient: 'horizontal',
+        itemGap: 14,
+        itemWidth: 10,
+        itemHeight: 10,
+        textStyle: { fontSize: 11, color: '#666' }
       }],
       series: [{
         type: 'graph',
         layout: 'force',
+        /* 节点排布区域：默认在画布左侧 2/3，右侧 1/3 留给详情卡片 */
+        top: 48,                       /* 留出 legend + 指引文字空间 */
+        bottom: 16,
+        left: 16,
+        right: GRAPH_RIGHT_RESERVED,   /* 默认 360px；详情态变 16 */
         data: nodes,
         links: links,
         categories: [
@@ -880,11 +1000,11 @@
       const forms = (c.forms || []).slice(0, 3).map(f => '#' + f).join(' ');
       const partner = c.partner ? ' · ' + c.partner : '';
       return (
-        '<a class="detail-mini-card" href="case-detail.html">' +
+        '<a class="detail-mini-card" href="case-detail.html" target="_blank" rel="noopener noreferrer">' +
           '<div class="cover-sm">[ 封面 ]</div>' +
           '<div class="info">' +
-            '<div class="title">' + gName + ' × ' + tName + '</div>' +
-            '<div class="meta">' + (c.year || '—') + partner + '</div>' +
+            '<div class="title" title="' + gName + ' × ' + tName + '">' + gName + ' × ' + tName + '</div>' +
+            '<div class="meta" title="' + (c.year || '—') + partner + '">' + (c.year || '—') + partner + '</div>' +
             '<div class="tags">' + forms + '</div>' +
           '</div>' +
         '</a>'
@@ -894,36 +1014,84 @@
   }
 
   /**
-   * 进入聚焦模式：只保留 keepIds 内的节点和它们之间的边
+   * 进入聚焦模式：保留所有节点位置不变，将非邻居淡化为半透明
+   * 透明度档位（per spec）：
+   *   - 聚焦节点 / 邻居节点 itemStyle.opacity = 1
+   *   - 非邻居节点                       opacity = 0.12
+   *   - 聚焦节点 / 邻居 label             opacity = 1
+   *   - 非邻居 label                     opacity = 0.18
+   *   - 相关连线 lineStyle.opacity        = 0.8
+   *   - 非相关连线                        opacity = 0.05
    */
   function focusNodes(keepIds) {
     const opt = chartInstance.getOption();
     const series0 = opt.series[0];
+
+    // 首次进入聚焦时保存快照（用于 restore 还原各项原始 itemStyle/lineStyle/label）
     if (!savedFullState) {
-      // 第一次进入：保存完整数据快照
       savedFullState = {
-        data: series0.data.slice(),
-        links: series0.links.slice()
+        data: series0.data.map(n => ({
+          itemStyle: n.itemStyle ? Object.assign({}, n.itemStyle) : undefined,
+          label:     n.label     ? Object.assign({}, n.label)     : undefined
+        })),
+        links: series0.links.map(l => ({
+          lineStyle: l.lineStyle ? Object.assign({}, l.lineStyle) : undefined
+        }))
       };
     }
-    const filteredData  = savedFullState.data.filter(n => keepIds.has(n.id));
-    const filteredLinks = savedFullState.links.filter(l =>
-      keepIds.has(l.source) && keepIds.has(l.target) && l._kind !== 'derived'
-    );
+
+    const newData = series0.data.map(n => {
+      const isKeep = keepIds.has(n.id);
+      return Object.assign({}, n, {
+        itemStyle: Object.assign({}, n.itemStyle, { opacity: isKeep ? 1 : 0.12 }),
+        label:     Object.assign({}, n.label,     { opacity: isKeep ? 1 : 0.18 })
+      });
+    });
+
+    const newLinks = series0.links.map(l => {
+      const isRelated = keepIds.has(l.source) && keepIds.has(l.target);
+      // 派生边（厂商↔主题）原本就只在"关闭游戏图例"时显示，这里不强行点亮
+      if (l._kind === 'derived') return l;
+      return Object.assign({}, l, {
+        lineStyle: Object.assign({}, l.lineStyle, { opacity: isRelated ? 0.8 : 0.05 })
+      });
+    });
+
+    GRAPH_RIGHT_RESERVED = GRAPH_RIGHT_DETAIL;
     chartInstance.setOption({
       series: [{
-        data: filteredData,
-        links: filteredLinks
+        right: GRAPH_RIGHT_DETAIL,
+        data:  newData,
+        links: newLinks
       }]
     });
   }
 
   function restoreFullGraph() {
     if (!savedFullState) return;
+    const opt = chartInstance.getOption();
+    const series0 = opt.series[0];
+
+    const newData = series0.data.map((n, i) => {
+      const snap = savedFullState.data[i] || {};
+      return Object.assign({}, n, {
+        itemStyle: snap.itemStyle ? Object.assign({}, snap.itemStyle) : { opacity: 1 },
+        label:     snap.label     ? Object.assign({}, snap.label)     : { opacity: 1 }
+      });
+    });
+    const newLinks = series0.links.map((l, i) => {
+      const snap = savedFullState.links[i] || {};
+      return Object.assign({}, l, {
+        lineStyle: snap.lineStyle ? Object.assign({}, snap.lineStyle) : { opacity: 0.5 }
+      });
+    });
+
+    GRAPH_RIGHT_RESERVED = GRAPH_RIGHT_DEFAULT;
     chartInstance.setOption({
       series: [{
-        data: savedFullState.data,
-        links: savedFullState.links
+        right: GRAPH_RIGHT_DEFAULT,
+        data:  newData,
+        links: newLinks
       }]
     });
     savedFullState = null;
@@ -944,7 +1112,10 @@
     detailCard.hidden = false;
     graphBody.classList.add('with-detail');
 
-    // 聚焦：只显示该节点 + 一阶邻居
+    // 切换节点：若卡片已开着，先恢复成干净状态再聚焦新节点
+    if (savedFullState) restoreFullGraph();
+
+    // 聚焦：保持所有节点位置不变，仅将非邻居淡化为半透明
     const neighbors = findNeighborIds(parsed);
     focusNodes(neighbors);
 

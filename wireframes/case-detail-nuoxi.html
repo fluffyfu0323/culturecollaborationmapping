@@ -83,11 +83,16 @@
     <div class="user">👤 我的</div>
   </header>
 
-  <!-- 面包屑 -->
+  <!-- 面包屑 + 返回入口 -->
   <div class="breadcrumb">
-    <span>首页</span>
+    <a href="cases.html" class="back-link" aria-label="返回案例列表">
+      <svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg>
+      <span>返回案例列表</span>
+    </a>
+    <span class="breadcrumb-divider" aria-hidden="true"></span>
+    <a href="home.html" class="breadcrumb-link">首页</a>
     <span class="breadcrumb-sep">/</span>
-    <span>联动案例</span>
+    <a href="cases.html" class="breadcrumb-link">联动案例</a>
     <span class="breadcrumb-sep">/</span>
     <b>超自然行动组 × 非遗傩戏 「傩舞起，百鬼避」</b>
   </div>

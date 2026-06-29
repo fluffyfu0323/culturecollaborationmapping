@@ -178,6 +178,7 @@ body {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
+  flex-wrap: wrap;
 }
 .breadcrumb b {
   color: var(--text);
@@ -186,6 +187,64 @@ body {
 .breadcrumb-sep {
   color: var(--text-muted);
   padding: 0 var(--space-xs);
+}
+/* 面包屑里的可点击链接 */
+.breadcrumb .breadcrumb-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--duration) var(--ease-out);
+}
+.breadcrumb .breadcrumb-link:hover {
+  color: var(--accent);
+}
+
+/* 醒目的"返回案例列表"按钮（pill 形状） */
+.breadcrumb .back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  margin-right: var(--space-sm);
+  background: var(--accent-light);
+  color: var(--accent-hover);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: var(--tracking-label);
+  transition: background var(--duration) var(--ease-out),
+              border-color var(--duration) var(--ease-out),
+              transform var(--duration) var(--ease-out);
+}
+.breadcrumb .back-link:hover {
+  background: var(--accent);
+  color: var(--text-on-accent);
+  border-color: var(--accent);
+  transform: translateX(-2px);
+}
+.breadcrumb .back-link .icon {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.25;
+}
+
+/* 返回按钮与面包屑之间的视觉分隔（细竖线） */
+.breadcrumb .breadcrumb-divider {
+  width: 1px;
+  height: 16px;
+  background: var(--border);
+  margin: 0 var(--space-sm) 0 0;
+}
+
+/* 响应式：窄屏返回按钮简化为图标 */
+@media (max-width: 640px) {
+  .breadcrumb .back-link span { display: none; }
+  .breadcrumb .back-link {
+    padding: var(--space-xs);
+    aspect-ratio: 1;
+    justify-content: center;
+  }
 }
 
 /* ---------- 主体三栏布局 ---------- */
